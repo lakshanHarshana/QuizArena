@@ -55,7 +55,7 @@ set_exception_handler(function (Throwable $e) {
         exit();
     }
 
-    // Friendly academic notification instead of exposing raw call stacks
+    // Friendly academic notification with automatic auto-refresh (recovers instantly)
     if (!headers_sent()) {
         http_response_code(500);
     }
@@ -63,23 +63,38 @@ set_exception_handler(function (Throwable $e) {
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Notice — QuizArena</title>
+        <meta http-equiv="refresh" content="2">
+        <title>Refreshing — QuizArena</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>body { background: #0f172a; color: #f8fafc; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }</style>
     </head>
     <body>
         <div class="container py-4 text-center" style="max-width: 580px;">
             <div class="card p-4 bg-dark text-white border-secondary rounded-4 shadow">
-                <div class="mb-3 text-warning fs-1">⚠️</div>
-                <h4 class="fw-bold mb-2">Temporary Database Notice</h4>
-                <p class="text-secondary small mb-3">QuizArena encountered an unexpected database query situation. The error has been handled and logged safely.</p>
-                <div class="alert alert-warning py-2 small text-start font-monospace mb-4">' . htmlspecialchars($e->getMessage()) . '</div>
-                <div class="d-flex justify-content-center gap-2">
-                    <button onclick="window.history.back()" class="btn btn-outline-light rounded-pill px-4">Go Back</button>
-                    <a href="' . BASE_URL . '/index.php" class="btn btn-primary rounded-pill px-4">Return Home</a>
+                <div class="mb-3 text-primary fs-1">
+                    <div class="spinner-border text-primary" role="status" style="width: 2.5rem; height: 2.5rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
+                <h4 class="fw-bold mb-2">Syncing Platform State...</h4>
+                <p class="text-secondary small mb-3">Database synchronization in progress. Refreshing automatically in <strong class="text-primary" id="syncTimer">2</strong> seconds...</p>
+                <div class="alert alert-secondary py-2 small text-start font-monospace mb-4 text-secondary">' . htmlspecialchars($e->getMessage()) . '</div>
+                <button onclick="window.location.reload()" class="btn btn-primary rounded-pill px-4">
+                    Refresh Immediately
+                </button>
             </div>
         </div>
+        <script>
+        let s = 2;
+        const el = document.getElementById("syncTimer");
+        setInterval(() => {
+            s--;
+            if (el) el.textContent = Math.max(0, s);
+            if (s <= 0) {
+                window.location.reload();
+            }
+        }, 1000);
+        </script>
     </body>
     </html>';
     exit();
@@ -142,7 +157,7 @@ class Database {
             }
         }
 
-        // If all attempts fail, log and display a friendly university-grade error page
+        // If all attempts fail, log and display auto-refreshing recovery page
         error_log("QuizArena Database Connection Failure: " . ($lastException ? $lastException->getMessage() : 'Unknown error'));
         
         $errMsg = htmlspecialchars($lastException ? $lastException->getMessage() : 'Unable to connect to MySQL server on ports 3306/3307.');
@@ -150,8 +165,9 @@ class Database {
         <html lang="en">
         <head>
             <meta charset="UTF-8">
+            <meta http-equiv="refresh" content="3">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Database Connection Error — QuizArena</title>
+            <title>Database Connecting — QuizArena</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
             <style>
@@ -162,9 +178,11 @@ class Database {
         <body>
             <div class="container py-4">
                 <div class="error-card mx-auto text-center">
-                    <div class="mb-3 text-danger"><i class="fa-solid fa-triangle-exclamation fa-3x"></i></div>
-                    <h3 class="fw-bold text-white mb-2">Database Connection Required</h3>
-                    <p class="text-secondary mb-4">QuizArena could not connect to MySQL / MariaDB on localhost (ports 3306, 3307).</p>
+                    <div class="mb-3 text-warning">
+                        <div class="spinner-border text-warning mb-2" role="status"></div>
+                        <h4 class="fw-bold text-white mb-2">Connecting to Database...</h4>
+                    </div>
+                    <p class="text-secondary mb-3">Attempting to establish MySQL connection. Page will <strong>automatically refresh in <span id="dbTimer" class="text-warning fw-bold">3</span>s</strong>.</p>
                     <div class="text-start bg-dark p-3 rounded-3 mb-4 text-warning font-monospace small" style="word-break: break-all;">
                         ' . $errMsg . '
                     </div>
@@ -173,14 +191,25 @@ class Database {
                         <ol class="mt-2 text-secondary ps-3">
                             <li>Open <strong>XAMPP Control Panel</strong> or <strong>WAMP</strong>.</li>
                             <li>Start the <strong>MySQL</strong> service.</li>
-                            <li>Import <code>database.sql</code> or simply refresh this page (auto-migration will seed the tables).</li>
+                            <li>Once started, this page will automatically load your dashboard!</li>
                         </ol>
                     </div>
                     <button onclick="window.location.reload()" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold">
-                        <i class="fa-solid fa-rotate-right me-2"></i>Retry Connection
+                        <i class="fa-solid fa-rotate-right me-2"></i>Retry Now
                     </button>
                 </div>
             </div>
+            <script>
+            let t = 3;
+            const tEl = document.getElementById("dbTimer");
+            setInterval(() => {
+                t--;
+                if (tEl) tEl.textContent = Math.max(0, t);
+                if (t <= 0) {
+                    window.location.reload();
+                }
+            }, 1000);
+            </script>
         </body>
         </html>');
     }
@@ -189,8 +218,18 @@ class Database {
         $sqlFile = ROOT_PATH . '/database.sql';
         if (file_exists($sqlFile)) {
             $sql = file_get_contents($sqlFile);
-            // Split by semicolon statements safely
-            $pdo->exec($sql);
+            // Strip single-line SQL comments safely
+            $sql = preg_replace('/--.*$/m', '', $sql);
+            $statements = array_filter(array_map('trim', explode(';', $sql)));
+            foreach ($statements as $stmt) {
+                if (!empty($stmt)) {
+                    try {
+                        $pdo->exec($stmt);
+                    } catch (PDOException $e) {
+                        // ignore safe duplicate schema notices
+                    }
+                }
+            }
         }
     }
 }

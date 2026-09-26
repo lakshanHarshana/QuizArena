@@ -136,6 +136,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     }
+
+    // Auto-dismiss success notification banners smoothly after 4 seconds
+    const alerts = document.querySelectorAll('.alert-dismissible');
+    alerts.forEach(alertEl => {
+        setTimeout(() => {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Alert) {
+                const bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+                if (bsAlert) bsAlert.close();
+            }
+        }, 4000);
+    });
 });
 
 window.ArenaSound = ArenaSound;
