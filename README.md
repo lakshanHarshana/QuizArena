@@ -5,7 +5,7 @@ QuizArena is a responsive, competitive, game-style online Multiple Choice Questi
 ---
 
 ## 📌 Academic Metadata
-* **Course:** ICT 2209 — Web Technologies
+* **Course: Web Technologies
 * **Institution:** Faculty of Technology, Rajarata University of Sri Lanka
 * **Architecture:** Full-Stack Web Application (HTML5, CSS3, JavaScript, PHP 8+, MySQL)
 * **Local Server Compatibility:** XAMPP / WAMP / Built-in PHP Development Server
@@ -195,4 +195,4 @@ QuizArena/
 ---
 
 ## 📜 License
-Developed for educational purposes under the ICT 2209 Web Technologies module, Rajarata University of Sri Lanka.
+Developed for educational purposes under the Web Technologies module, Rajarata University of Sri Lanka.
