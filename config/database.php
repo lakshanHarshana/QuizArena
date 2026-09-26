@@ -42,6 +42,49 @@ define('ROOT_PATH', dirname(__DIR__));
 // Timezone
 date_default_timezone_set('Asia/Colombo');
 
+// Global Graceful Exception Handler (Controls unhandled PDO/runtime errors)
+set_exception_handler(function (Throwable $e) {
+    error_log("QuizArena Handled Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
+
+    // If an API request, return JSON
+    if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/api/') !== false) {
+        if (!headers_sent()) {
+            header('Content-Type: application/json; charset=utf-8');
+        }
+        echo json_encode(['success' => false, 'message' => 'A database error occurred. Please try again.']);
+        exit();
+    }
+
+    // Friendly academic notification instead of exposing raw call stacks
+    if (!headers_sent()) {
+        http_response_code(500);
+    }
+    echo '<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Notice — QuizArena</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>body { background: #0f172a; color: #f8fafc; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }</style>
+    </head>
+    <body>
+        <div class="container py-4 text-center" style="max-width: 580px;">
+            <div class="card p-4 bg-dark text-white border-secondary rounded-4 shadow">
+                <div class="mb-3 text-warning fs-1">⚠️</div>
+                <h4 class="fw-bold mb-2">Temporary Database Notice</h4>
+                <p class="text-secondary small mb-3">QuizArena encountered an unexpected database query situation. The error has been handled and logged safely.</p>
+                <div class="alert alert-warning py-2 small text-start font-monospace mb-4">' . htmlspecialchars($e->getMessage()) . '</div>
+                <div class="d-flex justify-content-center gap-2">
+                    <button onclick="window.history.back()" class="btn btn-outline-light rounded-pill px-4">Go Back</button>
+                    <a href="' . BASE_URL . '/index.php" class="btn btn-primary rounded-pill px-4">Return Home</a>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>';
+    exit();
+});
+
 class Database {
     private static ?PDO $instance = null;
 

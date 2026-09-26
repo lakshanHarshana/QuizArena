@@ -13,72 +13,107 @@ $quizzes = $quizzesStmt->fetchAll();
 
 $selectedQuizId = isset($_GET['quiz_id']) ? (int)$_GET['quiz_id'] : 0;
 
-// Aggregate metrics
-$aggQuery = "
-    SELECT 
-        COUNT(a.id) AS total_attempts,
-        COALESCE(AVG(a.percentage), 0) AS avg_percentage,
-        COALESCE(MAX(a.percentage), 0) AS max_percentage,
-        COALESCE(MIN(a.percentage), 0) AS min_percentage,
-        COALESCE(AVG(a.completion_time), 0) AS avg_completion_time
-    FROM attempts a
-    JOIN quizzes q ON a.quiz_id = q.id
-    WHERE q.teacher_id = ? AND a.status IN ('SUBMITTED', 'AUTO_SUBMITTED')
-";
-$aggParams = [$teacherId];
+$metrics = [
+    'total_attempts' => 0,
+    'avg_percentage' => 0,
+    'max_percentage' => 0,
+    'min_percentage' => 0,
+    'avg_completion_time' => 0
+];
+$totalCorrect = 0;
+$totalWrong = 0;
+$totalUnanswered = 0;
+$pctCorrect = 0;
+$pctWrong = 0;
+$pctUnanswered = 0;
+$brackets = [
+    'bracket_low' => 0,
+    'bracket_med' => 0,
+    'bracket_high' => 0,
+    'bracket_elite' => 0
+];
 
-if ($selectedQuizId > 0) {
-    $aggQuery .= " AND a.quiz_id = ?";
-    $aggParams[] = $selectedQuizId;
+try {
+    // Aggregate metrics
+    $aggQuery = "
+        SELECT 
+            COUNT(a.id) AS total_attempts,
+            COALESCE(AVG(a.percentage), 0) AS avg_percentage,
+            COALESCE(MAX(a.percentage), 0) AS max_percentage,
+            COALESCE(MIN(a.percentage), 0) AS min_percentage,
+            COALESCE(AVG(a.completion_time), 0) AS avg_completion_time
+        FROM attempts a
+        JOIN quizzes q ON a.quiz_id = q.id
+        WHERE q.teacher_id = ? AND a.status IN ('SUBMITTED', 'AUTO_SUBMITTED')
+    ";
+    $aggParams = [$teacherId];
+
+    if ($selectedQuizId > 0) {
+        $aggQuery .= " AND a.quiz_id = ?";
+        $aggParams[] = $selectedQuizId;
+    }
+
+    $aggStmt = $db->prepare($aggQuery);
+    $aggStmt->execute($aggParams);
+    $fetchedMetrics = $aggStmt->fetch();
+    if ($fetchedMetrics) {
+        $metrics = $fetchedMetrics;
+    }
+
+    // Answers breakdown (Correct vs Wrong vs Unanswered)
+    $ansBreakdownQuery = "
+        SELECT 
+            SUM(CASE WHEN ans.is_correct = 1 THEN 1 ELSE 0 END) AS total_correct,
+            SUM(CASE WHEN ans.is_correct = 0 AND ans.selected_answer IS NOT NULL THEN 1 ELSE 0 END) AS total_wrong,
+            SUM(CASE WHEN ans.selected_answer IS NULL THEN 1 ELSE 0 END) AS total_unanswered
+        FROM answers ans
+        JOIN attempts a ON ans.attempt_id = a.id
+        JOIN quizzes q ON a.quiz_id = q.id
+        WHERE q.teacher_id = ? AND a.status IN ('SUBMITTED', 'AUTO_SUBMITTED')
+    ";
+    $ansParams = [$teacherId];
+    if ($selectedQuizId > 0) {
+        $ansBreakdownQuery .= " AND a.quiz_id = ?";
+        $ansParams[] = $selectedQuizId;
+    }
+    $ansStmt = $db->prepare($ansBreakdownQuery);
+    $ansStmt->execute($ansParams);
+    $ansMetrics = $ansStmt->fetch();
+
+    $totalCorrect = (int)($ansMetrics['total_correct'] ?? 0);
+    $totalWrong = (int)($ansMetrics['total_wrong'] ?? 0);
+    $totalUnanswered = (int)($ansMetrics['total_unanswered'] ?? 0);
+    $totalAnswerInstances = $totalCorrect + $totalWrong + $totalUnanswered;
+
+    $pctCorrect = ($totalAnswerInstances > 0) ? round(($totalCorrect / $totalAnswerInstances) * 100, 1) : 0;
+    $pctWrong = ($totalAnswerInstances > 0) ? round(($totalWrong / $totalAnswerInstances) * 100, 1) : 0;
+    $pctUnanswered = ($totalAnswerInstances > 0) ? round(($totalUnanswered / $totalAnswerInstances) * 100, 1) : 0;
+
+    // Score Bracket Distribution
+    $bracketQuery = "
+        SELECT 
+            SUM(CASE WHEN a.percentage < 50 THEN 1 ELSE 0 END) AS bracket_low,
+            SUM(CASE WHEN a.percentage >= 50 AND a.percentage < 70 THEN 1 ELSE 0 END) AS bracket_med,
+            SUM(CASE WHEN a.percentage >= 70 AND a.percentage < 90 THEN 1 ELSE 0 END) AS bracket_high,
+            SUM(CASE WHEN a.percentage >= 90 THEN 1 ELSE 0 END) AS bracket_elite
+        FROM attempts a
+        JOIN quizzes q ON a.quiz_id = q.id
+        WHERE q.teacher_id = ? AND a.status IN ('SUBMITTED', 'AUTO_SUBMITTED')
+    ";
+    $bracketParams = [$teacherId];
+    if ($selectedQuizId > 0) {
+        $bracketQuery .= " AND a.quiz_id = ?";
+        $bracketParams[] = $selectedQuizId;
+    }
+    $bStmt = $db->prepare($bracketQuery);
+    $bStmt->execute($bracketParams);
+    $fetchedBrackets = $bStmt->fetch();
+    if ($fetchedBrackets) {
+        $brackets = $fetchedBrackets;
+    }
+} catch (PDOException $e) {
+    error_log("Analytics query error: " . $e->getMessage());
 }
-
-$aggStmt = $db->prepare($aggQuery);
-$aggStmt->execute($aggParams);
-$metrics = $aggStmt->fetch();
-
-// Answers breakdown (Correct vs Wrong vs Unanswered)
-$ansBreakdownQuery = "
-    SELECT 
-        SUM(CASE WHEN ans.is_correct = 1 THEN 1 ELSE 0 END) AS total_correct,
-        SUM(CASE WHEN ans.is_correct = 0 AND ans.selected_answer IS NOT NULL THEN 1 ELSE 0 END) AS total_wrong,
-        SUM(CASE WHEN ans.selected_answer IS NULL THEN 1 ELSE 0 END) AS total_unanswered
-    FROM answers ans
-    JOIN attempts a ON ans.attempt_id = a.id
-    JOIN quizzes q ON a.quiz_id = q.id
-    WHERE q.teacher_id = ? AND a.status IN ('SUBMITTED', 'AUTO_SUBMITTED')
-";
-$ansParams = [$teacherId];
-if ($selectedQuizId > 0) {
-    $ansBreakdownQuery .= " AND a.quiz_id = ?";
-    $ansParams[] = $selectedQuizId;
-}
-$ansStmt = $db->prepare($ansBreakdownQuery);
-$ansStmt->execute($ansParams);
-$ansMetrics = $ansStmt->fetch();
-
-$totalCorrect = (int)($ansMetrics['total_correct'] ?? 0);
-$totalWrong = (int)($ansMetrics['total_wrong'] ?? 0);
-$totalUnanswered = (int)($ansMetrics['total_unanswered'] ?? 0);
-$totalAnswerInstances = $totalCorrect + $totalWrong + $totalUnanswered;
-
-$pctCorrect = ($totalAnswerInstances > 0) ? round(($totalCorrect / $totalAnswerInstances) * 100, 1) : 0;
-$pctWrong = ($totalAnswerInstances > 0) ? round(($totalWrong / $totalAnswerInstances) * 100, 1) : 0;
-$pctUnanswered = ($totalAnswerInstances > 0) ? round(($totalUnanswered / $totalAnswerInstances) * 100, 1) : 0;
-
-// Score Bracket Distribution (e.g. 0-49%, 50-69%, 70-89%, 90-100%)
-$bracketQuery = "
-    SELECT 
-        SUM(CASE WHEN a.percentage < 50 THEN 1 ELSE 0 END) AS bracket_low,
-        SUM(CASE WHEN a.percentage >= 50 AND a.percentage < 70 THEN 1 ELSE 0 END) AS bracket_med,
-        SUM(CASE WHEN a.percentage >= 70 AND a.percentage < 90 THEN 1 ELSE 0 END) AS bracket_high,
-        SUM(CASE WHEN a.percentage >= 90 THEN 1 ELSE 0 END) AS bracket_elite
-    FROM attempts a
-    JOIN quizzes q ON a.quiz_id = q.id
-    WHERE q.teacher_id = ? AND a.status IN ('SUBMITTED', 'AUTO_SUBMITTED')
-";
-$bStmt = $db->prepare($bracketQuery);
-$bStmt->execute($aggParams);
-$brackets = $bStmt->fetch();
 ?>
 
 <div class="container py-4">
