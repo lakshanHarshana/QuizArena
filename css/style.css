@@ -513,7 +513,7 @@ main {
     margin-top: auto;
 }
 
-/* Smooth Scrolling & Section Navigation (ICT 1209 Section 2.3) */
+/* Smooth Scrolling & Section Navigation */
 html {
     scroll-behavior: smooth;
 }

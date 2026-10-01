@@ -15,20 +15,19 @@ require_once __DIR__ . '/includes/header.php';
                 </p>
             </div>
 
-            <!-- Academic Assignment Card -->
+            <!-- Platform Mission Card -->
             <div class="arena-card p-4 p-md-5 mb-5 border-primary border-opacity-50">
                 <div class="row align-items-center g-4">
                     <div class="col-md-3 text-center">
                         <div class="d-inline-flex p-4 rounded-circle bg-primary bg-opacity-15 text-primary">
-                            <i class="fa-solid fa-graduation-cap fa-3x"></i>
+                            <i class="fa-solid fa-gamepad fa-3x"></i>
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <h4 class="fw-bold text-white mb-2">ICT 2209 — Web Technologies Mini Project</h4>
-                        <div class="text-info fw-semibold mb-2">Department of Information & Communication Technology</div>
-                        <div class="text-light mb-3">Faculty of Technology, Rajarata University of Sri Lanka</div>
+                        <h4 class="fw-bold text-white mb-2">Next-Gen Competitive Learning Experience</h4>
+                        <div class="text-info fw-semibold mb-2">Real-Time Knowledge Assessments & Interactive Arenas</div>
                         <p class="text-secondary small mb-0">
-                            Developed to demonstrate mastery over full-stack web technologies: semantic HTML5, modern CSS3 layout and animations, responsive Bootstrap design, interactive client-side JavaScript timers and audio synthesis, secure PHP 8.2 backend sessions and prepared statements, and normalized MySQL relational database architectures.
+                            QuizArena redefines digital MCQ assessments by pairing gamified engagement with rigorous test security. Designed for educators and learners seeking an immersive environment, our system delivers synchronized dual timers, instantaneous feedback, and fair automated ranking tables.
                         </p>
                     </div>
                 </div>

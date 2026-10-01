@@ -89,7 +89,7 @@ $quizzes = $quizzesStmt->fetchAll();
                     <div>
                         <h4 class="fw-bold text-white mb-0">Teacher Console — <?= sanitize($_SESSION['user_name']) ?></h4>
                         <div class="text-secondary small">
-                            <i class="fa-solid fa-building-columns text-primary me-1"></i><?= sanitize($profile['department'] ?? 'Department of ICT') ?>
+                            <i class="fa-solid fa-building-columns text-primary me-1"></i><?= sanitize($profile['department'] ?? 'Academic Department') ?>
                         </div>
                     </div>
                 </div>

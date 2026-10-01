@@ -78,11 +78,15 @@
             </div>
 
             <div class="col-lg-4 col-md-12">
-                <h6 class="text-white fw-bold mb-3 text-uppercase small" style="letter-spacing: 1px;">Academic Assignment</h6>
+                <h6 class="text-white fw-bold mb-3 text-uppercase small" style="letter-spacing: 1px;">Platform Highlights</h6>
                 <div class="p-3 rounded-3 bg-dark border border-secondary text-secondary small">
-                    <div class="fw-semibold text-light mb-1">ICT 2209 — Web Technologies Mini Project</div>
-                    <div class="mb-2">Faculty of Technology, Rajarata University of Sri Lanka</div>
-                    <div class="badge bg-secondary">HTML5 • CSS3 • JS • PHP • MySQL</div>
+                    <div class="fw-semibold text-light mb-1"><i class="fa-solid fa-bolt text-warning me-1"></i> Real-Time MCQ Engine</div>
+                    <div class="mb-2 text-secondary">Synchronized timers, instant visual answers, and dynamic leaderboards built for competitive learning.</div>
+                    <div class="d-flex flex-wrap gap-1">
+                        <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25">Dual Timers</span>
+                        <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25">Instant Feedback</span>
+                        <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25">Leaderboard</span>
+                    </div>
                 </div>
             </div>
         </div>

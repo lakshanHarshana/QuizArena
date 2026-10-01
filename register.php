@@ -70,7 +70,7 @@ require_once __DIR__ . '/includes/header.php';
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control form-arena" id="email" name="email" required placeholder="you@university.ac.lk">
+                            <input type="email" class="form-control form-arena" id="email" name="email" required placeholder="you@example.com">
                             <div class="invalid-feedback">Please enter a valid email address.</div>
                         </div>
 
@@ -79,12 +79,12 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="student_id" class="form-label">Student ID / Registration No.</label>
-                                    <input type="text" class="form-control form-arena" id="student_id" name="student_id" placeholder="e.g. IT220905">
+                                    <input type="text" class="form-control form-arena" id="student_id" name="student_id" placeholder="e.g. STU1001">
                                     <div class="invalid-feedback">Student ID is required.</div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="course" class="form-label">Course / Degree Program</label>
-                                    <input type="text" class="form-control form-arena" id="course" name="course" placeholder="e.g. BSc in IT">
+                                    <input type="text" class="form-control form-arena" id="course" name="course" placeholder="e.g. Computer Science">
                                     <div class="invalid-feedback">Course/Program is required.</div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@ require_once __DIR__ . '/includes/header.php';
                         <!-- Teacher specific fields -->
                         <div id="teacherFields" class="col-12 d-none">
                             <label for="department" class="form-label">Department / Faculty</label>
-                            <input type="text" class="form-control form-arena" id="department" name="department" placeholder="e.g. Department of ICT">
+                            <input type="text" class="form-control form-arena" id="department" name="department" placeholder="e.g. Department of Computing">
                             <div class="invalid-feedback">Department is required.</div>
                         </div>
 

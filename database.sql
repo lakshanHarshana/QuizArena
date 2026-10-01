@@ -1,7 +1,7 @@
 -- =====================================================================
 -- QUIZARENA: Real-Time Online MCQ Quiz Platform
 -- Database Schema & Comprehensive Seed Data
--- Designed for ICT 2209: Web Technologies Mini Project
+-- Designed for Real-Time Online MCQ Quiz Platform
 -- Compatible with MySQL 8.0+ and MariaDB 10.4+ (XAMPP / WAMP)
 -- =====================================================================
 

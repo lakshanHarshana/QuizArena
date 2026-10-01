@@ -77,7 +77,7 @@ require_once __DIR__ . '/includes/header.php';
                                 <span class="input-group-text bg-dark border-secondary text-secondary">
                                     <i class="fa-solid fa-envelope"></i>
                                 </span>
-                                <input type="email" class="form-control form-arena" id="email" name="email" required placeholder="kasun@university.ac.lk" value="<?= isset($_POST['email']) ? sanitize($_POST['email']) : '' ?>">
+                                <input type="email" class="form-control form-arena" id="email" name="email" required placeholder="kasun@example.com" value="<?= isset($_POST['email']) ? sanitize($_POST['email']) : '' ?>">
                             </div>
                         </div>
 
@@ -97,16 +97,16 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="mt-5 pt-4 border-top border-secondary text-center text-secondary small">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <i class="fa-solid fa-building-columns text-primary me-1"></i>
-                            <div>Rajarata University of Sri Lanka</div>
+                            <i class="fa-solid fa-headset text-primary me-1"></i>
+                            <div>24/7 Platform Support</div>
                         </div>
                         <div class="col-md-4">
                             <i class="fa-solid fa-envelope text-primary me-1"></i>
                             <div>support@quizarena.com</div>
                         </div>
                         <div class="col-md-4">
-                            <i class="fa-solid fa-code text-primary me-1"></i>
-                            <div>ICT 2209 Web Technologies</div>
+                            <i class="fa-solid fa-shield-halved text-primary me-1"></i>
+                            <div>Secure &amp; Real-Time</div>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 <?php
 /**
  * QUIZARENA — Database Connection & Global Configuration
- * ICT 2209 Web Technologies Mini Project
+ * Real-Time Online MCQ Quiz Platform
  * 
  * Supports:
  * - Robust PDO connection with UTF8MB4

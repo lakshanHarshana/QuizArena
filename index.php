@@ -127,7 +127,7 @@ $featuredQuizzes = $featuredStmt->fetchAll();
     </div>
 </section>
 
-<!-- Interactive Feature Showcase Slider (Satisfies ICT 1209 Section 2.3 Item 2 & Item 4) -->
+<!-- Interactive Feature Showcase Slider -->
 <section id="arena-slider" class="py-5 bg-dark bg-opacity-25 border-bottom border-secondary">
     <div class="container py-2">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
@@ -136,10 +136,10 @@ $featuredQuizzes = $featuredStmt->fetchAll();
                     <i class="fa-solid fa-sliders me-1"></i> Interactive Feature Carousel
                 </span>
                 <h2 class="fw-bold text-white mb-1">Explore Platform Capabilities</h2>
-                <p class="text-secondary small mb-0">High-performance game mechanics built for real-time university quizzes</p>
+                <p class="text-secondary small mb-0">High-performance game mechanics built for real-time online quizzes</p>
             </div>
             
-            <!-- Quick Jump Smooth-Scroll Navigation Bar (Satisfies Section 2.3 Item 4) -->
+            <!-- Quick Jump Smooth-Scroll Navigation Bar -->
             <div class="arena-jump-bar" id="sliderJumpBar">
                 <a href="#hero" class="arena-jump-link"><i class="fa-solid fa-arrow-up me-1"></i> Top</a>
                 <a href="#arena-slider" class="arena-jump-link active"><i class="fa-solid fa-sliders me-1"></i> Showcase</a>
@@ -322,7 +322,7 @@ $featuredQuizzes = $featuredStmt->fetchAll();
     </div>
 </section>
 
-<!-- Smooth-Scroll Active Navigation State Observer (Satisfies ICT 1209 Section 2.3 Item 4) -->
+<!-- Smooth-Scroll Active Navigation State Observer -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('section[id]');

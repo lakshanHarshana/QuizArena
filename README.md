@@ -1,32 +1,30 @@
 # 🎮 QuizArena — Real-Time Online MCQ Quiz Platform
 
-**QuizArena** is a modern, responsive, game-style online Multiple Choice Question (MCQ) quiz platform developed for university-level academic evaluations. 
-The system satisfies and exceeds all specifications outlined in the **ICT 1209 / ICT 2209 — Web Technologies Mini Project** guidelines (Rajarata University of Sri Lanka).
+**QuizArena** is a high-performance, responsive, game-style online Multiple Choice Question (MCQ) quiz platform developed for real-time educational evaluations and competitive learning arenas. 
+Teachers can create and schedule quizzes with individual question timers, while students join via unique **Quiz IDs** (e.g. `QUIZ-7F3A21`), answer questions with instant visual feedback (**GREEN** for correct, **RED** for wrong), and compete under synchronized dual timers and automated leaderboards.
 
 ---
 
-## 📌 Academic Information
-* **Course:** ICT 1209 / ICT 2209 — Web Technologies
-* **Module:** Web Technologies Mini Project — Individual Submission
-* **Institution:** Faculty of Applied Sciences / Faculty of Technology, Rajarata University of Sri Lanka
-* **Stack:** HTML5, CSS3, Bootstrap 5.3, Vanilla JavaScript, PHP 8.x, MySQL (PDO)
-* **Local Server Compatibility:** XAMPP / WAMP / Built-in PHP CLI Server
+## 📌 Project Overview
+* **Application:** QuizArena — Real-Time Online MCQ Quiz Platform
+* **Architecture:** Full-Stack Web Application (HTML5, CSS3, Bootstrap 5.3, Vanilla JavaScript, PHP 8+, MySQL)
+* **Local Server Compatibility:** XAMPP / WAMP / Built-in PHP CLI Development Server
+* **Design Philosophy:** Gamified MCQ interactivity, strict test security, and intuitive responsive workflows.
 
 ---
 
-## 🚀 System Architecture & Core Requirements Mapping
+## 🚀 System Architecture & Key Features
 
-### 1. Structure & Layout (Assignment Section 2.1 & 2.2)
+### 1. Modern UI & Responsive Layout
 * **Semantic HTML5:** Built using standard `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, and `<footer>` elements.
 * **Modern CSS3 & Bootstrap 5.3:** Fluid grid layout, custom game-arena dark palette, responsive flexbox components, CSS custom properties (`:root`), cards, and modals.
-* **Device Responsiveness:** Fully tested on mobile (360px+), tablet (768px+), and desktop screens (1024px, 1440px+).
+* **Device Responsiveness:** Fully optimized for mobile (360px+), tablet (768px+), and desktop screens (1024px, 1440px+).
 
 ---
 
-### 2. Client-Side Interactivity (Assignment Section 2.3)
-The assignment requires at least 3 distinct JavaScript features. **QuizArena implements all 6 features:**
+### 2. Client-Side Interactivity (JavaScript)
 
-| # | Required Feature (Section 2.3) | QuizArena Implementation Details | File / Location |
+| # | Interactive Feature | Implementation Details | File / Location |
 |---|---|---|---|
 | **1** | **Dynamic Content Filtering** | Real-time search and multi-criteria live filtering (by Title, Category, Difficulty, Status) without page reloads. | `quizzes.php`, `student/dashboard.php`, `assets/js/main.js` |
 | **2** | **Interactive Image Slider / Carousel** | Auto-playing interactive carousel (with pause-on-hover, previous/next controls, and indicator dots) showcasing platform features. | `index.php` (`#arenaCarousel`), `images/slider_*.svg` |
@@ -37,7 +35,7 @@ The assignment requires at least 3 distinct JavaScript features. **QuizArena imp
 
 ---
 
-### 3. Server-Side Processing & Security (Assignment Section 3.1 & 3.2)
+### 3. Server-Side Processing & Security
 * **Role-Based Authentication:**
   * Supports dual roles: **Student** and **Teacher**.
   * Registered users have a unique `username`, `email`, full name, and password hashed via **BCRYPT** (`password_hash` / `password_verify`).
@@ -45,11 +43,11 @@ The assignment requires at least 3 distinct JavaScript features. **QuizArena imp
   * Role-based session guards (`isLoggedIn()`, `isStudent()`, `isTeacher()`) restrict unauthorized page access.
 * **Session Security:** `session_regenerate_id(true)` prevents session fixation; flash messages communicate feedback seamlessly across requests.
 * **Database Security (PDO Prepared Statements):** 100% of SQL queries utilize parameterized prepared statements, eliminating SQL Injection vulnerabilities. All user inputs are sanitized with `htmlspecialchars` against Cross-Site Scripting (XSS).
-* **Contact Query Persistence (Section 3.4):** Submissions via `contact.php` are strictly validated on the backend and saved into the `messages` table (`id`, `name`, `email`, `message`, `created_at`).
+* **Contact Query Persistence:** Submissions via `contact.php` are strictly validated on the backend and saved into the `messages` table (`id`, `name`, `email`, `message`, `created_at`).
 
 ---
 
-### 4. Game-Style Quiz Mechanics (Specialized Requirements)
+### 4. Game-Style Quiz Mechanics
 
 #### A. Unique Quiz ID
 * Every created quiz receives an automatically generated unique Quiz Code (e.g., `QUIZ-7F3A21`).
@@ -98,9 +96,9 @@ messages (id, name, email, message, created_at)
 
 | Role | Username | Email | Password | Role Details |
 |---|---|---|---|---|
-| **Teacher** | `silva_teacher` | `teacher@quizarena.com` | `Teacher@123` | Dept. of Information & Communication Technology |
-| **Student 1** | `kasun_p` | `student@quizarena.com` | `Student@123` | Kasun Perera (`IT220901`) — BSc in IT |
-| **Student 2** | `nimal_s` | `nimal@quizarena.com` | `Student@123` | Nimal Silva (`IT220902`) — BSc in IT |
+| **Teacher** | `silva_teacher` | `teacher@quizarena.com` | `Teacher@123` | Department of Computing |
+| **Student 1** | `kasun_p` | `student@quizarena.com` | `Student@123` | Kasun Perera (`STU1001`) — Computer Science |
+| **Student 2** | `nimal_s` | `nimal@quizarena.com` | `Student@123` | Nimal Silva (`STU1002`) — Computer Science |
 
 > **Tip:** The `login.php` interface includes convenient **1-Click Test Credentials Buttons** to test both Teacher and Student accounts instantly without manual typing.
 
@@ -129,25 +127,25 @@ Open your browser at `http://localhost:8000`.
 
 ---
 
-## 📂 Folder Structure (Per Section 4 Specifications)
+## 📂 Project Structure
 
 ```text
 QuizArena/
 ├── index.php                   # Home page with hero, interactive carousel, stats & quizzes
-├── about.php                   # Academic details & system overview
+├── about.php                   # Platform overview & architecture
 ├── contact.php                 # Contact form saving to MySQL messages table
 ├── dashboard.php               # Root entry router (routes to student or teacher console)
 ├── login.php                   # User login view (Username or Email)
 ├── register.php                # User registration view (Student vs Teacher)
 ├── logout.php                  # Session termination
 ├── database.sql                # Complete relational schema & demo seed records
-├── README.md                   # Full documentation & requirements checklist
+├── README.md                   # Full documentation & feature guide
 │
 ├── config/
 │   └── database.php            # PDO database connection with multi-port auto fallback
 │
 ├── includes/
-│   ├── db.php                  # Database helper (Section 4 compliance)
+│   ├── db.php                  # Database connection helper
 │   ├── header.php              # Global navbar, alerts & CSS includes
 │   ├── footer.php              # Global footer, Quick Join modal & scripts
 │   ├── auth.php                # Session helpers & role authorization checks
@@ -197,12 +195,11 @@ QuizArena/
 
 ---
 
-## 🛡️ Academic Compliance Verification Summary
+## 🧪 System Quality Verification
 
-- [x] **Section 2.1 & 2.2:** Semantic HTML5, CSS3, Bootstrap 5.3, mobile-responsive design.
-- [x] **Section 2.3:** Client-Side Interactivity (All 6 JavaScript features implemented).
-- [x] **Section 3.1 & 3.2:** Secure PHP session authentication, username + email login, password hashing.
-- [x] **Section 3.3:** Full PDO CRUD operations, prepared statements, prepared parameter validation.
-- [x] **Section 3.4:** Contact form persists inquiries into the `messages` table.
-- [x] **Section 4:** Exact project folder structure and file organization.
-- [x] **Quiz Mechanics:** Unique Quiz IDs, automated total duration `SUM(time_limit)`, dual timers, green/red feedback, tie-breaker leaderboard.
+- [x] **Semantic UI:** Clean HTML5, CSS3, Bootstrap 5.3, mobile-responsive layout.
+- [x] **Client Interactivity:** All 6 interactive JavaScript features fully functional.
+- [x] **Security:** Secure PHP session authentication, username + email login, BCRYPT password hashing.
+- [x] **Database:** Full PDO CRUD operations, prepared statements, prepared parameter validation.
+- [x] **Support Communication:** Contact inquiries validated and saved into the `messages` table.
+- [x] **Game Mechanics:** Unique Quiz IDs, automated total duration `SUM(time_limit)`, dual timers, green/red feedback, tie-breaker leaderboard.
