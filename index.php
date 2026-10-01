@@ -7,20 +7,6 @@ $db = getDB();
 $quizCount = $db->query("SELECT COUNT(*) FROM quizzes WHERE status = 'published'")->fetchColumn() ?: 0;
 $attemptCount = $db->query("SELECT COUNT(*) FROM attempts WHERE status IN ('SUBMITTED', 'AUTO_SUBMITTED')")->fetchColumn() ?: 0;
 $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")->fetchColumn() ?: 0;
-
-// Fetch 3 featured live/upcoming quizzes
-$featuredStmt = $db->query("
-    SELECT q.*, c.name AS category_name, u.name AS teacher_name,
-           (SELECT COUNT(*) FROM questions WHERE quiz_id = q.id) AS question_count,
-           (SELECT COALESCE(SUM(time_limit), 0) FROM questions WHERE quiz_id = q.id) AS total_seconds
-    FROM quizzes q
-    JOIN categories c ON q.category_id = c.id
-    JOIN users u ON q.teacher_id = u.id
-    WHERE q.status = 'published'
-    ORDER BY q.id DESC
-    LIMIT 3
-");
-$featuredQuizzes = $featuredStmt->fetchAll();
 ?>
 
 <!-- Hero Section -->
@@ -127,7 +113,7 @@ $featuredQuizzes = $featuredStmt->fetchAll();
                 <a href="#hero" class="arena-jump-link"><i class="fa-solid fa-arrow-up me-1"></i> Top</a>
                 <a href="#arena-slider" class="arena-jump-link active"><i class="fa-solid fa-sliders me-1"></i> Showcase</a>
                 <a href="#how-it-works" class="arena-jump-link"><i class="fa-solid fa-diagram-project me-1"></i> Workflow</a>
-                <a href="#featured-quizzes" class="arena-jump-link"><i class="fa-solid fa-list-check me-1"></i> Quizzes</a>
+                <a href="#cta" class="arena-jump-link"><i class="fa-solid fa-gamepad me-1"></i> Join</a>
             </div>
         </div>
 
@@ -232,58 +218,7 @@ $featuredQuizzes = $featuredStmt->fetchAll();
     </div>
 </section>
 
-<!-- Featured Quizzes Preview -->
-<?php if (!empty($featuredQuizzes)): ?>
-<section id="featured-quizzes" class="py-5 bg-dark bg-opacity-25 border-top border-secondary">
-    <div class="container py-2">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h3 class="fw-bold text-white mb-1">Featured Quizzes</h3>
-                <p class="text-secondary small mb-0">Explore live and scheduled assessments</p>
-            </div>
-            <button type="button" class="btn btn-sm btn-arena-outline" data-bs-toggle="modal" data-bs-target="#quickJoinModal">
-                <i class="fa-solid fa-key me-1"></i> Join with Quiz ID
-            </button>
-        </div>
 
-        <div class="row g-4">
-            <?php foreach ($featuredQuizzes as $q): 
-                $statusInfo = getQuizStatus($q);
-            ?>
-                <div class="col-md-6 col-lg-4">
-                    <div class="arena-card p-4 h-100 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="quiz-code-badge"><?= sanitize($q['quiz_code']) ?></span>
-                            <?= $statusInfo['badge'] ?>
-                        </div>
-                        <h5 class="fw-bold text-white mb-1"><?= sanitize($q['title']) ?></h5>
-                        <p class="text-secondary small flex-grow-1"><?= sanitize(substr($q['description'], 0, 90)) . (strlen($q['description']) > 90 ? '...' : '') ?></p>
-
-                        <div class="p-2 rounded bg-dark border border-secondary mb-3 small text-secondary">
-                            <div class="d-flex justify-content-between mb-1">
-                                <span><i class="fa-solid fa-user-tie me-1 text-primary"></i> Teacher:</span>
-                                <span class="text-light fw-medium"><?= sanitize($q['teacher_name']) ?></span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-1">
-                                <span><i class="fa-solid fa-layer-group me-1 text-info"></i> Category:</span>
-                                <span class="text-light fw-medium"><?= sanitize($q['category_name']) ?></span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span><i class="fa-regular fa-clock me-1 text-warning"></i> Duration:</span>
-                                <span class="text-light fw-medium"><?= formatDurationHuman($q['total_seconds']) ?></span>
-                            </div>
-                        </div>
-
-                        <a href="<?= BASE_URL ?>/student/join_quiz.php?quiz_code=<?= urlencode($q['quiz_code']) ?>" class="btn btn-arena-primary w-100 py-2">
-                            <i class="fa-solid fa-play me-1"></i> Start / Join Quiz
-                        </a>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
-<?php endif; ?>
 
 <!-- Call To Action -->
 <section id="cta" class="py-5">
