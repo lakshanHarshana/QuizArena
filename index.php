@@ -75,27 +75,59 @@ $featuredQuizzes = $featuredStmt->fetchAll();
             </div>
 
             <div class="col-lg-5">
-                <div class="arena-card p-4 p-md-5 floating-element position-relative">
+                <div class="arena-card p-4 p-md-5 floating-element position-relative shadow-lg" id="hciHeroCard">
+                    <!-- Card Top Header -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="quiz-code-badge"><i class="fa-solid fa-bolt me-1"></i>QUIZ-7F3A21</span>
-                        <span class="badge bg-success pulse-badge"><i class="fa-solid fa-signal me-1"></i>LIVE</span>
+                        <span class="quiz-code-badge"><i class="fa-solid fa-bolt me-1"></i>HCI-DEMO-2026</span>
+                        <span class="badge bg-success pulse-badge"><i class="fa-solid fa-signal me-1"></i>LIVE INTERACTION</span>
                     </div>
-                    <h5 class="fw-bold text-white mb-2">Database Fundamentals</h5>
-                    <p class="text-secondary small mb-4">Relational queries, ACID transactions, and indexes.</p>
 
-                    <!-- Mock interactive preview -->
-                    <div class="p-3 rounded-3 mb-3" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981;">
-                        <div class="d-flex align-items-center justify-content-between text-success fw-bold small mb-1">
-                            <span><i class="fa-solid fa-check-circle me-1"></i> Option B Selected</span>
-                            <span>+1 Mark</span>
+                    <!-- HCI Topic Title & Prompt -->
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-2 py-1 rounded-pill small">
+                            <i class="fa-solid fa-users me-1"></i>Human-Computer Interaction
+                        </span>
+                        <span class="text-secondary small">Question 1 of 1</span>
+                    </div>
+                    <h5 class="fw-bold text-white mb-2">Usability &amp; Interaction Design</h5>
+                    <p class="text-secondary small mb-3">Which design principle ensures a system provides immediate visual acknowledgement when a user clicks a button?</p>
+
+                    <!-- Interactive Options Container (HCI User Feedback Demo) -->
+                    <div class="d-flex flex-column gap-2 mb-3" id="hciOptionsContainer">
+                        <button type="button" class="btn btn-outline-secondary text-start text-light p-2 px-3 rounded-3 d-flex align-items-center justify-content-between hci-opt-btn" onclick="checkHciAnswer(this, false, 'Affordance describes what an object can do, not feedback.')">
+                            <span><strong class="text-secondary me-2">A.</strong> Affordance</span>
+                            <i class="fa-regular fa-circle text-secondary hci-icon"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary text-start text-light p-2 px-3 rounded-3 d-flex align-items-center justify-content-between hci-opt-btn" onclick="checkHciAnswer(this, true, 'Correct! Feedback communicates the result of an action instantly.')">
+                            <span><strong class="text-secondary me-2">B.</strong> Immediate Feedback</span>
+                            <i class="fa-regular fa-circle text-secondary hci-icon"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary text-start text-light p-2 px-3 rounded-3 d-flex align-items-center justify-content-between hci-opt-btn" onclick="checkHciAnswer(this, false, 'Mapping relates controls to their spatial effects.')">
+                            <span><strong class="text-secondary me-2">C.</strong> Spatial Mapping</span>
+                            <i class="fa-regular fa-circle text-secondary hci-icon"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary text-start text-light p-2 px-3 rounded-3 d-flex align-items-center justify-content-between hci-opt-btn" onclick="checkHciAnswer(this, false, 'Consistency ensures uniform look and behavior across screens.')">
+                            <span><strong class="text-secondary me-2">D.</strong> Visual Consistency</span>
+                            <i class="fa-regular fa-circle text-secondary hci-icon"></i>
+                        </button>
+                    </div>
+
+                    <!-- Dynamic HCI Feedback Notice Box -->
+                    <div id="hciFeedbackBox" class="p-2 px-3 rounded-3 mb-3 d-none">
+                        <div class="d-flex align-items-center justify-content-between fw-bold small mb-1" id="hciFeedbackTitle">
+                            <span><i class="fa-solid fa-check-circle me-1"></i> Instant Feedback</span>
+                            <span id="hciScoreBadge">+10 Pts</span>
                         </div>
-                        <div class="text-light small">B. Structured Query Language</div>
+                        <div class="small" id="hciFeedbackText">Feedback details appear here.</div>
                     </div>
 
+                    <!-- Metadata Footer & Try Reset Button -->
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary text-secondary small">
-                        <span><i class="fa-regular fa-clock me-1 text-primary"></i> 5 Mins Overall</span>
-                        <span><i class="fa-solid fa-list-check me-1 text-primary"></i> 6 Questions</span>
-                        <span class="text-warning fw-semibold">Medium</span>
+                        <span><i class="fa-solid fa-stopwatch me-1 text-primary"></i> 30s Time Limit</span>
+                        <span><i class="fa-solid fa-trophy me-1 text-warning"></i> +10 Points</span>
+                        <button type="button" class="btn btn-link btn-sm text-info text-decoration-none p-0" onclick="resetHciDemo()">
+                            <i class="fa-solid fa-rotate-right me-1"></i>Try Again
+                        </button>
                     </div>
                 </div>
             </div>
@@ -322,8 +354,79 @@ $featuredQuizzes = $featuredStmt->fetchAll();
     </div>
 </section>
 
-<!-- Smooth-Scroll Active Navigation State Observer -->
+<!-- Interactive HCI Demo & Smooth-Scroll Active Navigation State Observer -->
 <script>
+function checkHciAnswer(button, isCorrect, explanation) {
+    const container = document.getElementById('hciOptionsContainer');
+    const allButtons = container.querySelectorAll('.hci-opt-btn');
+    const feedbackBox = document.getElementById('hciFeedbackBox');
+    const feedbackTitle = document.getElementById('hciFeedbackTitle');
+    const feedbackText = document.getElementById('hciFeedbackText');
+    const scoreBadge = document.getElementById('hciScoreBadge');
+
+    // Disable buttons to lock interaction
+    allButtons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove('btn-outline-secondary', 'border-success', 'border-danger');
+        btn.classList.add('opacity-75');
+    });
+
+    button.classList.remove('opacity-75');
+
+    if (isCorrect) {
+        button.style.background = 'rgba(16, 185, 129, 0.2)';
+        button.style.borderColor = '#10b981';
+        button.querySelector('.hci-icon').className = 'fa-solid fa-circle-check text-success hci-icon';
+        
+        feedbackBox.className = 'p-2 px-3 rounded-3 mb-3';
+        feedbackBox.style.background = 'rgba(16, 185, 129, 0.15)';
+        feedbackBox.style.border = '1px solid #10b981';
+        feedbackTitle.className = 'd-flex align-items-center justify-content-between fw-bold small mb-1 text-success';
+        feedbackTitle.innerHTML = '<span><i class="fa-solid fa-circle-check me-1"></i> Immediate Feedback: Correct!</span>';
+        scoreBadge.className = 'badge bg-success';
+        scoreBadge.textContent = '+10 Pts';
+        feedbackText.className = 'small text-light';
+        feedbackText.textContent = explanation;
+    } else {
+        button.style.background = 'rgba(239, 68, 68, 0.2)';
+        button.style.borderColor = '#ef4444';
+        button.querySelector('.hci-icon').className = 'fa-solid fa-circle-xmark text-danger hci-icon';
+
+        // Highlight correct option B
+        allButtons[1].style.background = 'rgba(16, 185, 129, 0.15)';
+        allButtons[1].style.borderColor = '#10b981';
+        allButtons[1].querySelector('.hci-icon').className = 'fa-solid fa-circle-check text-success hci-icon';
+        allButtons[1].classList.remove('opacity-75');
+
+        feedbackBox.className = 'p-2 px-3 rounded-3 mb-3';
+        feedbackBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        feedbackBox.style.border = '1px solid #ef4444';
+        feedbackTitle.className = 'd-flex align-items-center justify-content-between fw-bold small mb-1 text-danger';
+        feedbackTitle.innerHTML = '<span><i class="fa-solid fa-circle-xmark me-1"></i> Immediate Feedback: Incorrect</span>';
+        scoreBadge.className = 'badge bg-danger';
+        scoreBadge.textContent = '+0 Pts';
+        feedbackText.className = 'small text-light';
+        feedbackText.textContent = explanation + ' (Correct answer is B: Immediate Feedback)';
+    }
+
+    feedbackBox.classList.remove('d-none');
+}
+
+function resetHciDemo() {
+    const container = document.getElementById('hciOptionsContainer');
+    const allButtons = container.querySelectorAll('.hci-opt-btn');
+    const feedbackBox = document.getElementById('hciFeedbackBox');
+
+    allButtons.forEach(btn => {
+        btn.disabled = false;
+        btn.removeAttribute('style');
+        btn.className = 'btn btn-outline-secondary text-start text-light p-2 px-3 rounded-3 d-flex align-items-center justify-content-between hci-opt-btn';
+        btn.querySelector('.hci-icon').className = 'fa-regular fa-circle text-secondary hci-icon';
+    });
+
+    feedbackBox.classList.add('d-none');
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.arena-jump-link');
