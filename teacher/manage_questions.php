@@ -41,8 +41,40 @@ if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['questio
     $editQuestion = $fetchQ->fetch();
 }
 
+// Handle Finalize Schedule & Done Submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_finalize'])) {
+    $startDatetime = trim($_POST['start_datetime'] ?? '');
+    $endDatetime = trim($_POST['end_datetime'] ?? '');
+    $status = in_array($_POST['status'] ?? '', ['published', 'draft']) ? $_POST['status'] : 'published';
+    $maxAttempts = max(1, (int)($_POST['max_attempts'] ?? 1));
+
+    // Verify at least 1 question exists
+    $countQ = $db->prepare("SELECT COUNT(*) FROM questions WHERE quiz_id = ?");
+    $countQ->execute([$quizId]);
+    $numQuestions = (int)$countQ->fetchColumn();
+
+    if ($numQuestions === 0) {
+        $error = "Please add at least one question before defining the schedule and finalizing the quiz.";
+    } elseif (empty($startDatetime) || empty($endDatetime)) {
+        $error = "Both start and end dates/times are required.";
+    } elseif (strtotime($endDatetime) <= strtotime($startDatetime)) {
+        $error = "End date and time must be later than the start date and time.";
+    } else {
+        $upd = $db->prepare("
+            UPDATE quizzes 
+            SET start_datetime = ?, end_datetime = ?, status = ?, max_attempts = ?
+            WHERE id = ? AND teacher_id = ?
+        ");
+        $upd->execute([$startDatetime, $endDatetime, $status, $maxAttempts, $quizId, $teacherId]);
+
+        setFlash('success', "🎉 Quiz '<strong>" . htmlspecialchars($quiz['title']) . "</strong>' (Quiz ID: <strong>" . htmlspecialchars($quiz['quiz_code']) . "</strong>) has been scheduled with {$numQuestions} questions and is ready!");
+        header("Location: " . BASE_URL . "/teacher/dashboard.php");
+        exit();
+    }
+}
+
 // Handle Add / Update Question Submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['action_finalize'])) {
     $questionText = trim($_POST['question_text'] ?? '');
     $optionA = trim($_POST['option_a'] ?? '');
     $optionB = trim($_POST['option_b'] ?? '');
@@ -120,13 +152,32 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
             <p class="text-secondary small mb-0">Manage multiple choice questions, individual question timers, and marks.</p>
         </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="#scheduleSection" class="btn btn-success btn-sm rounded-pill px-3 fw-bold">
+                <i class="fa-solid fa-calendar-check me-1"></i> Define Date, Time & Done
+            </a>
             <a href="<?= BASE_URL ?>/teacher/dashboard.php" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
                 <i class="fa-solid fa-arrow-left me-1"></i> Dashboard
             </a>
             <a href="<?= BASE_URL ?>/teacher/results.php?quiz_id=<?= $quizId ?>" class="btn btn-outline-warning btn-sm rounded-pill px-3">
                 <i class="fa-solid fa-trophy me-1"></i> View Results
             </a>
+        </div>
+    </div>
+
+    <!-- 2-Step Workflow Guide -->
+    <div class="p-3 rounded-3 bg-dark border border-secondary mb-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-primary rounded-pill px-3 py-2 fw-semibold">
+                <i class="fa-solid fa-list-ol me-1"></i> Step 1: Set Questions & Answers
+            </span>
+            <i class="fa-solid fa-arrow-right text-secondary"></i>
+            <a href="#scheduleSection" class="badge <?= count($questions) > 0 ? 'bg-success text-white' : 'bg-secondary text-light' ?> rounded-pill px-3 py-2 fw-semibold text-decoration-none">
+                <i class="fa-solid fa-calendar-days me-1"></i> Step 2: Define Date, Time & Click Done
+            </a>
+        </div>
+        <div class="small text-secondary">
+            <span class="text-white fw-bold"><?= count($questions) ?></span> question(s) added
         </div>
     </div>
 
@@ -320,6 +371,68 @@ require_once __DIR__ . '/../includes/header.php';
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
+            </div>
+
+            <!-- Step 2: Define Schedule (Date & Time) & Done Button -->
+            <div id="scheduleSection" class="arena-card p-4 mt-4 border-success border-opacity-75 shadow-lg">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3 pb-3 border-bottom border-secondary">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-success bg-opacity-25 text-success d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; font-size: 1.5rem;">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-white mb-1">Define Date, Time &amp; Finalize Quiz</h5>
+                            <p class="text-secondary small mb-0">Once questions and answers are set, define when the quiz is active and click <strong>Done</strong>.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill">
+                            <i class="fa-solid fa-check-double me-1"></i> <?= count($questions) ?> Question<?= count($questions) === 1 ? '' : 's' ?> Added
+                        </span>
+                    </div>
+                </div>
+
+                <form action="<?= BASE_URL ?>/teacher/manage_questions.php?quiz_id=<?= $quizId ?>" method="POST" id="scheduleFinalizeForm">
+                    <input type="hidden" name="action_finalize" value="1">
+                    <input type="hidden" name="quiz_id" value="<?= $quizId ?>">
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="start_datetime" class="form-label fw-semibold">Start Date &amp; Time <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control form-arena" id="start_datetime" name="start_datetime" required value="<?= date('Y-m-d\TH:i', strtotime($quiz['start_datetime'])) ?>">
+                            <div class="form-text text-secondary" style="font-size: 0.75rem;">When the quiz becomes active for students</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="end_datetime" class="form-label fw-semibold">End Date &amp; Time <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control form-arena" id="end_datetime" name="end_datetime" required value="<?= date('Y-m-d\TH:i', strtotime($quiz['end_datetime'])) ?>">
+                            <div class="form-text text-secondary" style="font-size: 0.75rem;">Deadline after which attempts are closed</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="status" class="form-label fw-semibold">Publishing Status</label>
+                            <select class="form-select form-arena" id="status" name="status">
+                                <option value="published" <?= $quiz['status'] === 'published' ? 'selected' : '' ?>>Published (Live according to schedule)</option>
+                                <option value="draft" <?= $quiz['status'] === 'draft' ? 'selected' : '' ?>>Draft (Hidden until ready)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="max_attempts" class="form-label fw-semibold">Maximum Attempts per Student</label>
+                            <input type="number" class="form-control form-arena" id="max_attempts" name="max_attempts" min="1" max="10" value="<?= (int)$quiz['max_attempts'] ?>">
+                            <div class="form-text text-secondary" style="font-size: 0.75rem;">Default is 1 for competitive assessments</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 pt-3 border-top border-secondary">
+                        <div class="text-secondary small">
+                            <i class="fa-solid fa-clock text-warning me-1"></i> Calculated Total Duration: <strong class="text-white"><?= formatDurationHuman($totalSeconds) ?></strong> (<?= count($questions) ?> questions)
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg px-5 py-2 rounded-pill fw-bold shadow" <?= empty($questions) ? 'disabled title="Please add at least 1 question before finalizing"' : '' ?>>
+                            <i class="fa-solid fa-circle-check me-2"></i>Done — Save &amp; Finish Quiz
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

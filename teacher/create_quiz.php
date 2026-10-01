@@ -102,6 +102,23 @@ $defaultEnd = date('Y-m-d\TH:i', strtotime('+7 days'));
                     </div>
                 </div>
 
+                <!-- Workflow Guide Indicator -->
+                <div class="p-3 rounded-3 bg-dark border border-secondary mb-4">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <span class="badge bg-primary rounded-pill px-3 py-2 fw-semibold">
+                            <i class="fa-solid fa-1 me-1"></i> Step 1: Basic Quiz Info
+                        </span>
+                        <i class="fa-solid fa-arrow-right text-secondary fa-xs"></i>
+                        <span class="badge bg-secondary text-light rounded-pill px-3 py-2 fw-normal">
+                            <i class="fa-solid fa-2 me-1"></i> Step 2: Set Questions &amp; Answers
+                        </span>
+                        <i class="fa-solid fa-arrow-right text-secondary fa-xs"></i>
+                        <span class="badge bg-secondary text-light rounded-pill px-3 py-2 fw-normal">
+                            <i class="fa-solid fa-3 me-1"></i> Step 3: Define Date, Time &amp; Done
+                        </span>
+                    </div>
+                </div>
+
                 <form action="<?= BASE_URL ?>/teacher/create_quiz.php" method="POST" id="quizForm" novalidate>
                     <div class="row g-3">
                         <div class="col-12">
@@ -138,34 +155,34 @@ $defaultEnd = date('Y-m-d\TH:i', strtotime('+7 days'));
                         </div>
 
                         <div class="col-md-6">
-                            <label for="start_datetime" class="form-label">Start Date & Time <span class="text-danger">*</span></label>
+                            <label for="start_datetime" class="form-label">Initial Start Date &amp; Time <span class="text-danger">*</span></label>
                             <input type="datetime-local" class="form-control form-arena" id="start_datetime" name="start_datetime" required value="<?= isset($_POST['start_datetime']) ? sanitize($_POST['start_datetime']) : $defaultStart ?>">
-                            <div class="invalid-feedback">Start date & time is required.</div>
+                            <div class="form-text text-secondary" style="font-size: 0.72rem;">Can be adjusted after adding questions</div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="end_datetime" class="form-label">End Date & Time <span class="text-danger">*</span></label>
+                            <label for="end_datetime" class="form-label">Initial End Date &amp; Time <span class="text-danger">*</span></label>
                             <input type="datetime-local" class="form-control form-arena" id="end_datetime" name="end_datetime" required value="<?= isset($_POST['end_datetime']) ? sanitize($_POST['end_datetime']) : $defaultEnd ?>">
-                            <div class="invalid-feedback">End date & time must be after start time.</div>
+                            <div class="form-text text-secondary" style="font-size: 0.72rem;">Can be adjusted after adding questions</div>
                         </div>
 
                         <div class="col-md-6">
                             <label for="max_attempts" class="form-label">Maximum Attempts per Student</label>
                             <input type="number" class="form-control form-arena" id="max_attempts" name="max_attempts" min="1" max="10" value="<?= isset($_POST['max_attempts']) ? (int)$_POST['max_attempts'] : 1 ?>">
-                            <div class="form-text text-secondary">Set to 1 for strict one-time assessments.</div>
+                            <div class="form-text text-secondary" style="font-size: 0.72rem;">Default 1 attempt</div>
                         </div>
 
                         <div class="col-md-6">
                             <label for="status" class="form-label">Publishing Status</label>
                             <select class="form-select form-arena" id="status" name="status">
-                                <option value="published" <?= (!isset($_POST['status']) || $_POST['status'] === 'published') ? 'selected' : '' ?>>Published (Visible to students)</option>
-                                <option value="draft" <?= (isset($_POST['status']) && $_POST['status'] === 'draft') ? 'selected' : '' ?>>Draft (Hidden until published)</option>
+                                <option value="published" <?= (!isset($_POST['status']) || $_POST['status'] === 'published') ? 'selected' : '' ?>>Published (Live according to schedule)</option>
+                                <option value="draft" <?= (isset($_POST['status']) && $_POST['status'] === 'draft') ? 'selected' : '' ?>>Draft (Keep as draft)</option>
                             </select>
                         </div>
 
                         <div class="col-12 mt-4 pt-2 border-top border-secondary">
-                            <button type="submit" class="btn btn-arena-primary w-100 py-2 fs-6">
-                                <i class="fa-solid fa-arrow-right me-2"></i>Save & Proceed to Add Questions
+                            <button type="submit" class="btn btn-arena-primary w-100 py-3 fs-6 fw-bold">
+                                <i class="fa-solid fa-arrow-right me-2"></i>Create Quiz &amp; Continue to Set Questions
                             </button>
                         </div>
                     </div>
