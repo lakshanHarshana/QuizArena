@@ -61,12 +61,13 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
             </div>
 
             <div class="col-lg-5 text-center">
-                <!-- 8-Planet Solar System Solar Orbit Arena -->
-                <div class="solar-system-arena mx-auto position-relative" title="Explore the 8 Planets of QuizArena">
+                <!-- Cosmic Solar Arena: 8 Planets + Interactive Knowledge Satellites -->
+                <div class="solar-system-arena mx-auto position-relative" id="cosmicSolarArena">
                     <!-- Central Sun / Quiz Core -->
-                    <div class="solar-sun shadow-lg">
+                    <div class="solar-sun shadow-lg" id="solarSunCore" onclick="solarShowInfo('sun')">
                         <div class="sun-icon-wrap">
-                            <i class="fa-solid fa-sun fa-2x text-warning sun-glow-icon"></i>
+                            <i class="fa-solid fa-trophy text-warning fa-2x sun-trophy-icon"></i>
+                            <i class="fa-solid fa-bolt text-warning sun-bolt-icon"></i>
                         </div>
                         <div class="sun-title mt-1">QuizArena</div>
                     </div>
@@ -76,42 +77,42 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
 
                     <!-- 1. Mercury (Innermost Orbit) -->
                     <div class="planet-orbit orbit-mercury">
-                        <div class="planet-body planet-mercury" data-bs-toggle="tooltip" data-bs-placement="top" title="Mercury">
+                        <div class="planet-body planet-mercury" onclick="solarShowInfo('mercury')" data-bs-toggle="tooltip" data-bs-placement="top" title="Mercury">
                             <span class="planet-tag">Mercury</span>
                         </div>
                     </div>
 
                     <!-- 2. Venus -->
                     <div class="planet-orbit orbit-venus">
-                        <div class="planet-body planet-venus" data-bs-toggle="tooltip" data-bs-placement="top" title="Venus">
+                        <div class="planet-body planet-venus" onclick="solarShowInfo('venus')" data-bs-toggle="tooltip" data-bs-placement="top" title="Venus">
                             <span class="planet-tag">Venus</span>
                         </div>
                     </div>
 
                     <!-- 3. Earth -->
                     <div class="planet-orbit orbit-earth">
-                        <div class="planet-body planet-earth" data-bs-toggle="tooltip" data-bs-placement="top" title="Earth">
+                        <div class="planet-body planet-earth" onclick="solarShowInfo('earth')" data-bs-toggle="tooltip" data-bs-placement="top" title="Earth">
                             <span class="planet-tag">Earth</span>
                         </div>
                     </div>
 
                     <!-- 4. Mars -->
                     <div class="planet-orbit orbit-mars">
-                        <div class="planet-body planet-mars" data-bs-toggle="tooltip" data-bs-placement="top" title="Mars">
+                        <div class="planet-body planet-mars" onclick="solarShowInfo('mars')" data-bs-toggle="tooltip" data-bs-placement="top" title="Mars">
                             <span class="planet-tag">Mars</span>
                         </div>
                     </div>
 
                     <!-- 5. Jupiter (Gas Giant) -->
                     <div class="planet-orbit orbit-jupiter">
-                        <div class="planet-body planet-jupiter" data-bs-toggle="tooltip" data-bs-placement="top" title="Jupiter">
+                        <div class="planet-body planet-jupiter" onclick="solarShowInfo('jupiter')" data-bs-toggle="tooltip" data-bs-placement="top" title="Jupiter">
                             <span class="planet-tag">Jupiter</span>
                         </div>
                     </div>
 
                     <!-- 6. Saturn (With Ring) -->
                     <div class="planet-orbit orbit-saturn">
-                        <div class="planet-body planet-saturn" data-bs-toggle="tooltip" data-bs-placement="top" title="Saturn">
+                        <div class="planet-body planet-saturn" onclick="solarShowInfo('saturn')" data-bs-toggle="tooltip" data-bs-placement="top" title="Saturn">
                             <div class="saturn-ring"></div>
                             <span class="planet-tag">Saturn</span>
                         </div>
@@ -119,16 +120,74 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
 
                     <!-- 7. Uranus -->
                     <div class="planet-orbit orbit-uranus">
-                        <div class="planet-body planet-uranus" data-bs-toggle="tooltip" data-bs-placement="top" title="Uranus">
+                        <div class="planet-body planet-uranus" onclick="solarShowInfo('uranus')" data-bs-toggle="tooltip" data-bs-placement="top" title="Uranus">
                             <span class="planet-tag">Uranus</span>
                         </div>
                     </div>
 
                     <!-- 8. Neptune (Outermost Orbit) -->
                     <div class="planet-orbit orbit-neptune">
-                        <div class="planet-body planet-neptune" data-bs-toggle="tooltip" data-bs-placement="top" title="Neptune">
+                        <div class="planet-body planet-neptune" onclick="solarShowInfo('neptune')" data-bs-toggle="tooltip" data-bs-placement="top" title="Neptune">
                             <span class="planet-tag">Neptune</span>
                         </div>
+                    </div>
+
+                    <!-- REVOLVING KNOWLEDGE SATELLITE CARDS (Top, Right, Bottom, Left) -->
+                    <!-- Satellite 1: Technology & AI (Top) -->
+                    <div class="solar-sat-card sat-top" onclick="solarShowInfo('tech')">
+                        <div class="arena-pill-card p-1 px-3 shadow-lg border border-info border-opacity-50 text-start d-flex align-items-center gap-2">
+                            <div class="rounded-circle bg-info bg-opacity-25 text-info d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                            <div>
+                                <div class="text-white fw-bold" style="font-size: 0.78rem;">Technology</div>
+                                <div class="text-info" style="font-size: 0.65rem;">Coding &amp; AI</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Satellite 2: Science & Math (Right) -->
+                    <div class="solar-sat-card sat-right" onclick="solarShowInfo('science')">
+                        <div class="arena-pill-card p-1 px-3 shadow-lg border border-success border-opacity-50 text-start d-flex align-items-center gap-2">
+                            <div class="rounded-circle bg-success bg-opacity-25 text-success d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">
+                                <i class="fa-solid fa-atom"></i>
+                            </div>
+                            <div>
+                                <div class="text-white fw-bold" style="font-size: 0.78rem;">Science &amp; Math</div>
+                                <div class="text-success" style="font-size: 0.65rem;">Physics &amp; Bio</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Satellite 3: Arts & Design (Bottom) -->
+                    <div class="solar-sat-card sat-bottom" onclick="solarShowInfo('arts')">
+                        <div class="arena-pill-card p-1 px-3 shadow-lg border border-danger border-opacity-50 text-start d-flex align-items-center gap-2">
+                            <div class="rounded-circle bg-danger bg-opacity-25 text-danger d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">
+                                <i class="fa-solid fa-palette"></i>
+                            </div>
+                            <div>
+                                <div class="text-white fw-bold" style="font-size: 0.78rem;">Arts &amp; Design</div>
+                                <div class="text-danger" style="font-size: 0.65rem;">History &amp; Lit</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Satellite 4: Multi-Domain (Left) -->
+                    <div class="solar-sat-card sat-left" onclick="solarShowInfo('multi')">
+                        <div class="arena-pill-card p-1 px-3 shadow-lg border border-primary border-opacity-50 text-start d-flex align-items-center gap-2">
+                            <div class="rounded-circle bg-primary bg-opacity-25 text-primary d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <div class="text-white fw-bold" style="font-size: 0.78rem;">All Disciplines</div>
+                                <div class="text-primary" style="font-size: 0.65rem;">General IQ Arena</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Live HUD Banner (Human Interaction) -->
+                    <div class="solar-hud-badge p-1 px-3 rounded-pill bg-dark bg-opacity-75 border border-secondary shadow small" id="solarHudMsg">
+                        <i class="fa-solid fa-hand-pointer text-warning me-1"></i> Click any planet or discipline to explore
                     </div>
                 </div>
             </div>
@@ -398,8 +457,34 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
     </div>
 </section>
 
-<!-- Smooth-Scroll Active Navigation State Observer -->
+<!-- Interactive Solar Arena & Smooth-Scroll Active Navigation State Observer -->
 <script>
+const solarInfoDict = {
+    'sun': '<i class="fa-solid fa-trophy text-warning me-1"></i> <strong>QuizArena Core</strong>: Live multiplayer academic battle arena!',
+    'mercury': '<i class="fa-solid fa-bolt text-secondary me-1"></i> <strong>Mercury</strong>: Fastest orbit (5s) — Speedy reaction quizzes & rapid-fire MCQs!',
+    'venus': '<i class="fa-solid fa-fire text-warning me-1"></i> <strong>Venus</strong>: Bright golden planet — High-pressure timed challenges!',
+    'earth': '<i class="fa-solid fa-earth-americas text-info me-1"></i> <strong>Earth</strong>: The home of knowledge — General science, geography & life!',
+    'mars': '<i class="fa-solid fa-meteor text-danger me-1"></i> <strong>Mars</strong>: The red planet — Tough competitive ranking matches!',
+    'jupiter': '<i class="fa-solid fa-atom text-warning me-1"></i> <strong>Jupiter</strong>: The largest giant — Deep comprehensive assessments!',
+    'saturn': '<i class="fa-solid fa-ring text-warning me-1"></i> <strong>Saturn</strong>: Ringed wonder — Master-level multi-stage quizzes!',
+    'uranus': '<i class="fa-solid fa-snowflake text-info me-1"></i> <strong>Uranus</strong>: Cyan ice giant — Logic, puzzles & deep analysis!',
+    'neptune': '<i class="fa-solid fa-water text-primary me-1"></i> <strong>Neptune</strong>: The outer boundary — Ultimate final challenges!',
+    'tech': '<i class="fa-solid fa-code text-info me-1"></i> <strong>Technology Orbit</strong>: Algorithms, Web Dev, Python & Machine Learning.',
+    'science': '<i class="fa-solid fa-atom text-success me-1"></i> <strong>Science Orbit</strong>: Physics, Chemistry, Biology & Pure Mathematics.',
+    'arts': '<i class="fa-solid fa-palette text-danger me-1"></i> <strong>Arts Orbit</strong>: Creative Design, World History & World Literature.',
+    'multi': '<i class="fa-solid fa-graduation-cap text-primary me-1"></i> <strong>Multi-Domain Orbit</strong>: General Knowledge & Multi-Disciplinary IQ.'
+};
+
+function solarShowInfo(key) {
+    const hud = document.getElementById('solarHudMsg');
+    if (!hud) return;
+    const msg = solarInfoDict[key] || solarInfoDict['sun'];
+    hud.innerHTML = msg;
+    hud.classList.remove('pulse-hud');
+    void hud.offsetWidth; // trigger reflow
+    hud.classList.add('pulse-hud');
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.arena-jump-link');
