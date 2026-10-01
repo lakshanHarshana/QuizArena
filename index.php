@@ -70,7 +70,6 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
                             <i class="fa-solid fa-bolt text-warning core-bolt-icon"></i>
                         </div>
                         <div class="core-title mt-1">QuizArena</div>
-                        <div class="core-sub text-secondary">Battle Core</div>
                     </div>
 
                     <!-- Orbital Track Circles -->
@@ -457,7 +456,7 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
 <!-- Interactive Discipline Orbit & Smooth-Scroll Active Navigation State Observer -->
 <script>
 const disciplineDict = {
-    'core': '<i class="fa-solid fa-trophy text-warning me-1"></i> <strong>QuizArena Battle Core</strong>: Real-time competitive arena across all academic domains!',
+    'core': '<i class="fa-solid fa-trophy text-warning me-1"></i> <strong>QuizArena</strong>: Real-time competitive assessment arena across all academic domains!',
     'tech': '<i class="fa-solid fa-code text-info me-1"></i> <strong>Technology &amp; Computing</strong>: Python, AI, Web Development, Databases &amp; Cybersecurity.',
     'science': '<i class="fa-solid fa-atom text-success me-1"></i> <strong>Natural Sciences</strong>: Physics, Organic Chemistry, Genetics &amp; Biology.',
     'math': '<i class="fa-solid fa-calculator text-warning me-1"></i> <strong>Mathematics &amp; Statistics</strong>: Algebra, Calculus, Discrete Math &amp; Probability.',
