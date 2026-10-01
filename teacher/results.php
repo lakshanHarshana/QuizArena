@@ -16,7 +16,8 @@ $searchStudent = trim($_GET['search'] ?? '');
 
 // Base query for teacher's quiz attempts
 $query = "
-    SELECT a.*, q.title AS quiz_title, q.quiz_code, q.total_marks,
+    SELECT a.*, q.title AS quiz_title, q.quiz_code,
+           COALESCE(NULLIF(a.total_marks, 0), (SELECT COALESCE(SUM(marks), 0) FROM questions WHERE quiz_id = q.id)) AS total_marks,
            u.name AS student_name, u.email AS student_email,
            sp.student_id, sp.course
     FROM attempts a
