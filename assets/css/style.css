@@ -687,60 +687,69 @@ html {
 /* Orbiting Cards Base */
 .hero-orbit-card {
     position: absolute;
-    width: 215px;
+    width: 165px;
     transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     cursor: pointer;
     z-index: 20;
+}
+.arena-pill-card {
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 30px;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+}
+.arena-pill-card:hover {
+    background: rgba(30, 41, 59, 0.95);
 }
 .hero-orbit-card:hover {
     z-index: 30;
     transform: scale(1.1) !important;
     opacity: 1 !important;
-    filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8)) !important;
+    filter: drop-shadow(0 0 16px rgba(99, 102, 241, 0.8)) !important;
 }
 
-/* Card 1: Top Position (Rotating + Phased Visible/Invisible) */
+/* Card 1: Top Position */
 .hero-orbit-card.card-pos-1 {
-    top: 5px;
+    top: 15px;
     left: 50%;
-    margin-left: -107px;
+    margin-left: -82px;
     animation: cardCycleTop 12s cubic-bezier(0.4, 0, 0.2, 1) infinite 0s;
 }
 
 /* Card 2: Right Position */
 .hero-orbit-card.card-pos-2 {
-    right: -10px;
+    right: 5px;
     top: 50%;
-    margin-top: -45px;
+    margin-top: -30px;
     animation: cardCycleRight 12s cubic-bezier(0.4, 0, 0.2, 1) infinite 3s;
 }
 
 /* Card 3: Bottom Position */
 .hero-orbit-card.card-pos-3 {
-    bottom: 5px;
+    bottom: 15px;
     left: 50%;
-    margin-left: -107px;
+    margin-left: -82px;
     animation: cardCycleBottom 12s cubic-bezier(0.4, 0, 0.2, 1) infinite 6s;
 }
 
 /* Card 4: Left Position */
 .hero-orbit-card.card-pos-4 {
-    left: -10px;
+    left: 5px;
     top: 50%;
-    margin-top: -45px;
+    margin-top: -30px;
     animation: cardCycleLeft 12s cubic-bezier(0.4, 0, 0.2, 1) infinite 9s;
 }
 
 /* Responsive adjustment for small screens */
 @media (max-width: 576px) {
     .hero-orbit-card {
-        width: 175px;
+        width: 145px;
     }
     .hero-orbit-card.card-pos-1, .hero-orbit-card.card-pos-3 {
-        margin-left: -87px;
+        margin-left: -72px;
     }
     .hero-rotating-arena {
-        height: 380px;
+        height: 360px;
     }
 }
 

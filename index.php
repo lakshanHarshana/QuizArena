@@ -79,57 +79,61 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
 
                     <!-- Card 1: Technology & Computing -->
                     <div class="hero-orbit-card card-pos-1" data-domain="tech">
-                        <div class="arena-card p-3 shadow-lg border-info border-opacity-50 text-start">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <div class="rounded-circle bg-info bg-opacity-20 text-info p-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <div class="arena-pill-card p-2 px-3 shadow border border-info border-opacity-50 text-start">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle bg-info bg-opacity-20 text-info p-1 d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.8rem;">
                                     <i class="fa-solid fa-code"></i>
                                 </div>
-                                <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-2 py-0 small fw-bold">TECHNOLOGY</span>
+                                <div>
+                                    <div class="text-white fw-bold small lh-1">Technology</div>
+                                    <div class="text-info" style="font-size: 0.68rem;">Coding &amp; AI</div>
+                                </div>
                             </div>
-                            <div class="fw-bold text-white small">Coding, AI &amp; Software</div>
-                            <div class="text-secondary" style="font-size: 0.72rem;">Algorithms • Systems • Cloud</div>
                         </div>
                     </div>
 
                     <!-- Card 2: Science & Mathematics -->
                     <div class="hero-orbit-card card-pos-2" data-domain="science">
-                        <div class="arena-card p-3 shadow-lg border-success border-opacity-50 text-start">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <div class="rounded-circle bg-success bg-opacity-20 text-success p-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <div class="arena-pill-card p-2 px-3 shadow border border-success border-opacity-50 text-start">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle bg-success bg-opacity-20 text-success p-1 d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.8rem;">
                                     <i class="fa-solid fa-atom"></i>
                                 </div>
-                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-0 small fw-bold">SCIENCE &amp; MATH</span>
+                                <div>
+                                    <div class="text-white fw-bold small lh-1">Science &amp; Math</div>
+                                    <div class="text-success" style="font-size: 0.68rem;">Physics &amp; Bio</div>
+                                </div>
                             </div>
-                            <div class="fw-bold text-white small">Physics, Bio &amp; Chem</div>
-                            <div class="text-secondary" style="font-size: 0.72rem;">Calculus • Logic • Nature</div>
                         </div>
                     </div>
 
-                    <!-- Card 3: Arts, Design & Humanities -->
+                    <!-- Card 3: Arts & Humanities -->
                     <div class="hero-orbit-card card-pos-3" data-domain="arts">
-                        <div class="arena-card p-3 shadow-lg border-danger border-opacity-50 text-start">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <div class="rounded-circle bg-danger bg-opacity-20 text-danger p-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <div class="arena-pill-card p-2 px-3 shadow border border-danger border-opacity-50 text-start">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle bg-danger bg-opacity-20 text-danger p-1 d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.8rem;">
                                     <i class="fa-solid fa-palette"></i>
                                 </div>
-                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2 py-0 small fw-bold">ARTS &amp; HUMANITIES</span>
+                                <div>
+                                    <div class="text-white fw-bold small lh-1">Arts &amp; Design</div>
+                                    <div class="text-danger" style="font-size: 0.68rem;">History &amp; Lit</div>
+                                </div>
                             </div>
-                            <div class="fw-bold text-white small">Design, History &amp; Literature</div>
-                            <div class="text-secondary" style="font-size: 0.72rem;">Philosophy • Languages • Arts</div>
                         </div>
                     </div>
 
-                    <!-- Card 4: Multi-Disciplinary & All Fields -->
+                    <!-- Card 4: Multi-Domain -->
                     <div class="hero-orbit-card card-pos-4" data-domain="multi">
-                        <div class="arena-card p-3 shadow-lg border-primary border-opacity-50 text-start">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <div class="rounded-circle bg-primary bg-opacity-20 text-primary p-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <div class="arena-pill-card p-2 px-3 shadow border border-primary border-opacity-50 text-start">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="rounded-circle bg-primary bg-opacity-20 text-primary p-1 d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.8rem;">
                                     <i class="fa-solid fa-graduation-cap"></i>
                                 </div>
-                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-0 small fw-bold">MULTI-DOMAIN</span>
+                                <div>
+                                    <div class="text-white fw-bold small lh-1">All Disciplines</div>
+                                    <div class="text-primary" style="font-size: 0.68rem;">General IQ Arena</div>
+                                </div>
                             </div>
-                            <div class="fw-bold text-white small">All Fields &amp; General IQ</div>
-                            <div class="text-secondary" style="font-size: 0.72rem;">Competitive Assessment Arena</div>
                         </div>
                     </div>
                 </div>
