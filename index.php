@@ -61,79 +61,73 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
             </div>
 
             <div class="col-lg-5 text-center">
-                <!-- Native 3D Rotating & Visible/Invisible Cards Showcase -->
-                <div class="hero-rotating-arena mx-auto position-relative">
-                    <!-- Central Glowing Knowledge Hub Core -->
-                    <div class="arena-central-hub shadow-lg">
-                        <div class="hub-icon-wrap">
-                            <i class="fa-solid fa-trophy text-warning fa-2x hub-trophy"></i>
-                            <i class="fa-solid fa-bolt text-warning hub-bolt"></i>
+                <!-- 8-Planet Solar System Solar Orbit Arena -->
+                <div class="solar-system-arena mx-auto position-relative" title="Explore the 8 Planets of QuizArena">
+                    <!-- Central Sun / Quiz Core -->
+                    <div class="solar-sun shadow-lg">
+                        <div class="sun-icon-wrap">
+                            <i class="fa-solid fa-sun fa-2x text-warning sun-glow-icon"></i>
                         </div>
-                        <div class="hub-label mt-1">QuizArena</div>
-                        <div class="hub-sub small text-secondary">Live Arena</div>
+                        <div class="sun-title mt-1">QuizArena</div>
                     </div>
 
-                    <!-- Surrounding Pulse Radar Rings -->
-                    <div class="hub-pulse-ring ring-1"></div>
-                    <div class="hub-pulse-ring ring-2"></div>
+                    <!-- Ambient Sun Corona Rays -->
+                    <div class="sun-corona"></div>
 
-                    <!-- Card 1: Technology & Computing -->
-                    <div class="hero-orbit-card card-pos-1" data-domain="tech">
-                        <div class="arena-pill-card p-2 px-3 shadow border border-info border-opacity-50 text-start">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="rounded-circle bg-info bg-opacity-20 text-info p-1 d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.8rem;">
-                                    <i class="fa-solid fa-code"></i>
-                                </div>
-                                <div>
-                                    <div class="text-white fw-bold small lh-1">Technology</div>
-                                    <div class="text-info" style="font-size: 0.68rem;">Coding &amp; AI</div>
-                                </div>
-                            </div>
+                    <!-- 1. Mercury (Innermost Orbit) -->
+                    <div class="planet-orbit orbit-mercury">
+                        <div class="planet-body planet-mercury" data-bs-toggle="tooltip" data-bs-placement="top" title="Mercury">
+                            <span class="planet-tag">Mercury</span>
                         </div>
                     </div>
 
-                    <!-- Card 2: Science & Mathematics -->
-                    <div class="hero-orbit-card card-pos-2" data-domain="science">
-                        <div class="arena-pill-card p-2 px-3 shadow border border-success border-opacity-50 text-start">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="rounded-circle bg-success bg-opacity-20 text-success p-1 d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.8rem;">
-                                    <i class="fa-solid fa-atom"></i>
-                                </div>
-                                <div>
-                                    <div class="text-white fw-bold small lh-1">Science &amp; Math</div>
-                                    <div class="text-success" style="font-size: 0.68rem;">Physics &amp; Bio</div>
-                                </div>
-                            </div>
+                    <!-- 2. Venus -->
+                    <div class="planet-orbit orbit-venus">
+                        <div class="planet-body planet-venus" data-bs-toggle="tooltip" data-bs-placement="top" title="Venus">
+                            <span class="planet-tag">Venus</span>
                         </div>
                     </div>
 
-                    <!-- Card 3: Arts & Humanities -->
-                    <div class="hero-orbit-card card-pos-3" data-domain="arts">
-                        <div class="arena-pill-card p-2 px-3 shadow border border-danger border-opacity-50 text-start">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="rounded-circle bg-danger bg-opacity-20 text-danger p-1 d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.8rem;">
-                                    <i class="fa-solid fa-palette"></i>
-                                </div>
-                                <div>
-                                    <div class="text-white fw-bold small lh-1">Arts &amp; Design</div>
-                                    <div class="text-danger" style="font-size: 0.68rem;">History &amp; Lit</div>
-                                </div>
-                            </div>
+                    <!-- 3. Earth -->
+                    <div class="planet-orbit orbit-earth">
+                        <div class="planet-body planet-earth" data-bs-toggle="tooltip" data-bs-placement="top" title="Earth">
+                            <span class="planet-tag">Earth</span>
                         </div>
                     </div>
 
-                    <!-- Card 4: Multi-Domain -->
-                    <div class="hero-orbit-card card-pos-4" data-domain="multi">
-                        <div class="arena-pill-card p-2 px-3 shadow border border-primary border-opacity-50 text-start">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="rounded-circle bg-primary bg-opacity-20 text-primary p-1 d-flex align-items-center justify-content-center" style="width: 26px; height: 26px; font-size: 0.8rem;">
-                                    <i class="fa-solid fa-graduation-cap"></i>
-                                </div>
-                                <div>
-                                    <div class="text-white fw-bold small lh-1">All Disciplines</div>
-                                    <div class="text-primary" style="font-size: 0.68rem;">General IQ Arena</div>
-                                </div>
-                            </div>
+                    <!-- 4. Mars -->
+                    <div class="planet-orbit orbit-mars">
+                        <div class="planet-body planet-mars" data-bs-toggle="tooltip" data-bs-placement="top" title="Mars">
+                            <span class="planet-tag">Mars</span>
+                        </div>
+                    </div>
+
+                    <!-- 5. Jupiter (Gas Giant) -->
+                    <div class="planet-orbit orbit-jupiter">
+                        <div class="planet-body planet-jupiter" data-bs-toggle="tooltip" data-bs-placement="top" title="Jupiter">
+                            <span class="planet-tag">Jupiter</span>
+                        </div>
+                    </div>
+
+                    <!-- 6. Saturn (With Ring) -->
+                    <div class="planet-orbit orbit-saturn">
+                        <div class="planet-body planet-saturn" data-bs-toggle="tooltip" data-bs-placement="top" title="Saturn">
+                            <div class="saturn-ring"></div>
+                            <span class="planet-tag">Saturn</span>
+                        </div>
+                    </div>
+
+                    <!-- 7. Uranus -->
+                    <div class="planet-orbit orbit-uranus">
+                        <div class="planet-body planet-uranus" data-bs-toggle="tooltip" data-bs-placement="top" title="Uranus">
+                            <span class="planet-tag">Uranus</span>
+                        </div>
+                    </div>
+
+                    <!-- 8. Neptune (Outermost Orbit) -->
+                    <div class="planet-orbit orbit-neptune">
+                        <div class="planet-body planet-neptune" data-bs-toggle="tooltip" data-bs-placement="top" title="Neptune">
+                            <span class="planet-tag">Neptune</span>
                         </div>
                     </div>
                 </div>
