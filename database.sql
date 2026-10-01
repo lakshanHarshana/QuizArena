@@ -16,12 +16,14 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(50) NOT NULL UNIQUE,
   `name` VARCHAR(100) NOT NULL,
   `email` VARCHAR(120) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   `role` ENUM('student', 'teacher') NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_users_role` (`role`),
+  INDEX `idx_users_username` (`username`),
   INDEX `idx_users_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -165,11 +167,11 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- =====================================================================
 
 -- Users
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
-(1, 'Mr. Silva', 'teacher@quizarena.com', '$2y$10$Hb5Ur8qivYKYk2oKh/IeZu5wlMS.Wp0LNXwanAOJdyhpeJG2GY6d6', 'teacher'),
-(2, 'Kasun Perera', 'student@quizarena.com', '$2y$10$Fn.ofAvAGB7iEWzH64KPOOe97ryGWjuPCxMNbsVE0FCnyMYeRMZ7S', 'student'),
-(3, 'Nimal Silva', 'nimal@quizarena.com', '$2y$10$Fn.ofAvAGB7iEWzH64KPOOe97ryGWjuPCxMNbsVE0FCnyMYeRMZ7S', 'student'),
-(4, 'Amali Wickramasinghe', 'amali@quizarena.com', '$2y$10$Fn.ofAvAGB7iEWzH64KPOOe97ryGWjuPCxMNbsVE0FCnyMYeRMZ7S', 'student');
+INSERT INTO `users` (`id`, `username`, `name`, `email`, `password`, `role`) VALUES
+(1, 'silva_teacher', 'Mr. Silva', 'teacher@quizarena.com', '$2y$10$Hb5Ur8qivYKYk2oKh/IeZu5wlMS.Wp0LNXwanAOJdyhpeJG2GY6d6', 'teacher'),
+(2, 'kasun_p', 'Kasun Perera', 'student@quizarena.com', '$2y$10$Fn.ofAvAGB7iEWzH64KPOOe97ryGWjuPCxMNbsVE0FCnyMYeRMZ7S', 'student'),
+(3, 'nimal_s', 'Nimal Silva', 'nimal@quizarena.com', '$2y$10$Fn.ofAvAGB7iEWzH64KPOOe97ryGWjuPCxMNbsVE0FCnyMYeRMZ7S', 'student'),
+(4, 'amali_w', 'Amali Wickramasinghe', 'amali@quizarena.com', '$2y$10$Fn.ofAvAGB7iEWzH64KPOOe97ryGWjuPCxMNbsVE0FCnyMYeRMZ7S', 'student');
 
 -- Profiles
 INSERT INTO `teacher_profiles` (`user_id`, `department`) VALUES

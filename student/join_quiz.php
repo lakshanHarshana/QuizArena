@@ -1,6 +1,7 @@
 <?php
-$pageTitle = "Join Quiz";
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/functions.php';
 requireStudent();
 
 $studentId = (int)$_SESSION['user_id'];
@@ -74,6 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit();
     }
 }
+
+$pageTitle = "Join Quiz";
+require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="container py-5">

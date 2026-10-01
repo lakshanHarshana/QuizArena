@@ -1,6 +1,6 @@
 <?php
-$pageTitle = "Contact";
-require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/includes/functions.php';
 
 $successMsg = '';
 $errorMsg = '';
@@ -28,6 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+$pageTitle = "Contact";
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="container py-5">

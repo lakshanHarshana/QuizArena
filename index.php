@@ -24,7 +24,7 @@ $featuredQuizzes = $featuredStmt->fetchAll();
 ?>
 
 <!-- Hero Section -->
-<section class="py-5 py-lg-6 position-relative overflow-hidden">
+<section id="hero" class="py-5 py-lg-6 position-relative overflow-hidden">
     <div class="container py-4">
         <div class="row align-items-center g-5">
             <div class="col-lg-7 text-center text-lg-start">
@@ -104,7 +104,7 @@ $featuredQuizzes = $featuredStmt->fetchAll();
 </section>
 
 <!-- Statistics Counter -->
-<section class="py-4 border-top border-bottom border-secondary bg-dark bg-opacity-50">
+<section id="stats" class="py-4 border-top border-bottom border-secondary bg-dark bg-opacity-50">
     <div class="container">
         <div class="row g-4 text-center">
             <div class="col-6 col-md-3">
@@ -127,8 +127,67 @@ $featuredQuizzes = $featuredStmt->fetchAll();
     </div>
 </section>
 
+<!-- Interactive Feature Showcase Slider (Satisfies ICT 1209 Section 2.3 Item 2 & Item 4) -->
+<section id="arena-slider" class="py-5 bg-dark bg-opacity-25 border-bottom border-secondary">
+    <div class="container py-2">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
+            <div>
+                <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-1 rounded-pill mb-2">
+                    <i class="fa-solid fa-sliders me-1"></i> Interactive Feature Carousel
+                </span>
+                <h2 class="fw-bold text-white mb-1">Explore Platform Capabilities</h2>
+                <p class="text-secondary small mb-0">High-performance game mechanics built for real-time university quizzes</p>
+            </div>
+            
+            <!-- Quick Jump Smooth-Scroll Navigation Bar (Satisfies Section 2.3 Item 4) -->
+            <div class="arena-jump-bar" id="sliderJumpBar">
+                <a href="#hero" class="arena-jump-link"><i class="fa-solid fa-arrow-up me-1"></i> Top</a>
+                <a href="#arena-slider" class="arena-jump-link active"><i class="fa-solid fa-sliders me-1"></i> Showcase</a>
+                <a href="#how-it-works" class="arena-jump-link"><i class="fa-solid fa-diagram-project me-1"></i> Workflow</a>
+                <a href="#featured-quizzes" class="arena-jump-link"><i class="fa-solid fa-list-check me-1"></i> Quizzes</a>
+            </div>
+        </div>
+
+        <div class="arena-slider-container position-relative">
+            <div id="arenaCarousel" class="carousel slide carousel-arena" data-bs-ride="carousel" data-bs-interval="4500" data-bs-pause="hover">
+                <!-- Indicators -->
+                <div class="carousel-indicators mb-3">
+                    <button type="button" data-bs-target="#arenaCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1: Gameplay"></button>
+                    <button type="button" data-bs-target="#arenaCarousel" data-bs-slide-to="1" aria-label="Slide 2: Dual Timers"></button>
+                    <button type="button" data-bs-target="#arenaCarousel" data-bs-slide-to="2" aria-label="Slide 3: Leaderboard"></button>
+                    <button type="button" data-bs-target="#arenaCarousel" data-bs-slide-to="3" aria-label="Slide 4: Analytics"></button>
+                </div>
+
+                <!-- Carousel Slides -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="<?= BASE_URL ?>/images/slider_gameplay.svg" class="d-block w-100" alt="Real-Time MCQ Gameplay & Instant Feedback">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="<?= BASE_URL ?>/images/slider_timer.svg" class="d-block w-100" alt="Dual Synchronized Timers & Auto-Calculated Limits">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="<?= BASE_URL ?>/images/slider_leaderboard.svg" class="d-block w-100" alt="Dynamic Leaderboards & Animated Achievements">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="<?= BASE_URL ?>/images/slider_analytics.svg" class="d-block w-100" alt="Teacher Console, Unique Quiz IDs & Analytics">
+                    </div>
+                </div>
+
+                <!-- Manual Navigation Controls -->
+                <button class="carousel-control-prev carousel-control-arena ms-3" type="button" data-bs-target="#arenaCarousel" data-bs-slide="prev" aria-label="Previous Slide">
+                    <i class="fa-solid fa-chevron-left text-white"></i>
+                </button>
+                <button class="carousel-control-next carousel-control-arena me-3" type="button" data-bs-target="#arenaCarousel" data-bs-slide="next" aria-label="Next Slide">
+                    <i class="fa-solid fa-chevron-right text-white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- How It Works Section -->
-<section class="py-5">
+<section id="how-it-works" class="py-5">
     <div class="container py-4">
         <div class="text-center mb-5">
             <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-1 rounded-pill mb-2">Interactive Workflow</span>
@@ -192,7 +251,7 @@ $featuredQuizzes = $featuredStmt->fetchAll();
 
 <!-- Featured Quizzes Preview -->
 <?php if (!empty($featuredQuizzes)): ?>
-<section class="py-5 bg-dark bg-opacity-25 border-top border-secondary">
+<section id="featured-quizzes" class="py-5 bg-dark bg-opacity-25 border-top border-secondary">
     <div class="container py-2">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
@@ -244,7 +303,7 @@ $featuredQuizzes = $featuredStmt->fetchAll();
 <?php endif; ?>
 
 <!-- Call To Action -->
-<section class="py-5">
+<section id="cta" class="py-5">
     <div class="container">
         <div class="arena-card p-5 text-center position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);">
             <h2 class="fw-bold text-white mb-2">Ready to test your knowledge?</h2>
@@ -262,5 +321,35 @@ $featuredQuizzes = $featuredStmt->fetchAll();
         </div>
     </div>
 </section>
+
+<!-- Smooth-Scroll Active Navigation State Observer (Satisfies ICT 1209 Section 2.3 Item 4) -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.arena-jump-link');
+
+    if (sections.length && navLinks.length) {
+        window.addEventListener('scroll', function () {
+            let current = '';
+            const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 140;
+                const sectionHeight = section.offsetHeight;
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    }
+});
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

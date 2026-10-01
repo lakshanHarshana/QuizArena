@@ -1,6 +1,7 @@
 <?php
-$pageTitle = "Register";
-require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/functions.php';
 
 if (isLoggedIn()) {
     if (isStudent()) {
@@ -10,6 +11,9 @@ if (isLoggedIn()) {
     }
     exit();
 }
+
+$pageTitle = "Register";
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="container py-5">
@@ -49,7 +53,16 @@ if (isLoggedIn()) {
                     </div>
 
                     <div class="row g-3">
-                        <div class="col-12">
+                        <div class="col-md-6">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary"><i class="fa-solid fa-at"></i></span>
+                                <input type="text" class="form-control form-arena" id="username" name="username" required pattern="^[a-zA-Z0-9_]{3,30}$" placeholder="e.g. kasun_p">
+                            </div>
+                            <div class="invalid-feedback">Username must be 3-30 letters, numbers, or underscores.</div>
+                        </div>
+
+                        <div class="col-md-6">
                             <label for="name" class="form-label">Full Name</label>
                             <input type="text" class="form-control form-arena" id="name" name="name" required placeholder="e.g. Kasun Perera">
                             <div class="invalid-feedback">Please enter your full name.</div>

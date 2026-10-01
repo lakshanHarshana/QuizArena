@@ -1,6 +1,7 @@
 <?php
-$pageTitle = "Login";
-require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/functions.php';
 
 if (isLoggedIn()) {
     if (isStudent()) {
@@ -10,6 +11,9 @@ if (isLoggedIn()) {
     }
     exit();
 }
+
+$pageTitle = "Login";
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="container py-5">
@@ -26,12 +30,12 @@ if (isLoggedIn()) {
 
                 <form action="<?= BASE_URL ?>/auth/login_process.php" method="POST" id="loginForm" novalidate>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
+                        <label for="login_id" class="form-label">Username or Email Address</label>
                         <div class="input-group">
                             <span class="input-group-text bg-dark border-secondary text-secondary">
-                                <i class="fa-solid fa-envelope"></i>
+                                <i class="fa-solid fa-user"></i>
                             </span>
-                            <input type="email" class="form-control form-arena" id="email" name="email" required placeholder="you@example.com">
+                            <input type="text" class="form-control form-arena" id="login_id" name="login_id" required placeholder="e.g. kasun_p or you@example.com">
                         </div>
                     </div>
 
@@ -55,13 +59,23 @@ if (isLoggedIn()) {
                 <!-- Quick Test Credentials Box -->
                 <div class="p-3 rounded-3 bg-dark border border-secondary mt-3 mb-4">
                     <div class="small fw-bold text-light mb-2"><i class="fa-solid fa-bolt text-warning me-1"></i> Quick Test Credentials:</div>
-                    <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-sm btn-outline-info flex-fill" onclick="fillCreds('teacher@quizarena.com', 'Teacher@123')">
-                            <i class="fa-solid fa-chalkboard-user me-1"></i> Teacher
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-primary flex-fill" onclick="fillCreds('student@quizarena.com', 'Student@123')">
-                            <i class="fa-solid fa-user-graduate me-1"></i> Student
-                        </button>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-info flex-fill" onclick="fillCreds('silva_teacher', 'Teacher@123')">
+                                <i class="fa-solid fa-chalkboard-user me-1"></i> Teacher (Username)
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-primary flex-fill" onclick="fillCreds('kasun_p', 'Student@123')">
+                                <i class="fa-solid fa-user-graduate me-1"></i> Student (Username)
+                            </button>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" onclick="fillCreds('teacher@quizarena.com', 'Teacher@123')">
+                                <i class="fa-solid fa-envelope me-1"></i> Teacher (Email)
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" onclick="fillCreds('student@quizarena.com', 'Student@123')">
+                                <i class="fa-solid fa-envelope me-1"></i> Student (Email)
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -74,8 +88,8 @@ if (isLoggedIn()) {
 </div>
 
 <script>
-function fillCreds(email, password) {
-    document.getElementById('email').value = email;
+function fillCreds(loginId, password) {
+    document.getElementById('login_id').value = loginId;
     document.getElementById('password').value = password;
 }
 </script>

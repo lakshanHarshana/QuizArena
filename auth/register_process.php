@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $role = trim($_POST['role'] ?? '');
+$username = trim($_POST['username'] ?? '');
 $name = trim($_POST['name'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
@@ -24,7 +25,20 @@ $department = trim($_POST['department'] ?? '');
 
 $errors = [];
 
+// Auto-generate username from email if left blank
+if (empty($username)) {
+    $emailParts = explode('@', $email);
+    $username = strtolower(preg_replace('/[^a-zA-Z0-9_]/', '', $emailParts[0]));
+    if (strlen($username) < 3) {
+        $username = 'user_' . substr(uniqid(), -5);
+    }
+}
+
 // Basic Validations
+if (strlen($username) < 3) {
+    $errors[] = "Username must be at least 3 characters.";
+}
+
 if (empty($name) || strlen($name) < 2) {
     $errors[] = "Please enter your full name.";
 }
@@ -54,6 +68,13 @@ if ($role === 'student') {
 
 $db = getDB();
 
+// Check for duplicate username
+$stmtUser = $db->prepare("SELECT id FROM users WHERE username = ? LIMIT 1");
+$stmtUser->execute([$username]);
+if ($stmtUser->rowCount() > 0) {
+    $errors[] = "The username '{$username}' is already taken. Please choose another username.";
+}
+
 // Check for duplicate email
 $stmt = $db->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
 $stmt->execute([$email]);
@@ -82,9 +103,9 @@ $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 try {
     $db->beginTransaction();
 
-    // Insert user record
-    $stmt = $db->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$name, $email, $hashedPassword, $role]);
+    // Insert user record with username
+    $stmt = $db->prepare("INSERT INTO users (username, name, email, password, role) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$username, $name, $email, $hashedPassword, $role]);
     $userId = (int)$db->lastInsertId();
 
     // Insert profile record
@@ -100,6 +121,7 @@ try {
 
     // Set active session
     $_SESSION['user_id'] = $userId;
+    $_SESSION['user_username'] = $username;
     $_SESSION['user_name'] = $name;
     $_SESSION['user_email'] = $email;
     $_SESSION['user_role'] = $role;

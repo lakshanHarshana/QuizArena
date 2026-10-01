@@ -11,18 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-$email = trim($_POST['email'] ?? '');
+$loginId = trim($_POST['login_id'] ?? $_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
-if (empty($email) || empty($password)) {
-    setFlash('error', "Please enter both your email address and password.");
+if (empty($loginId) || empty($password)) {
+    setFlash('error', "Please enter both your username/email and password.");
     header("Location: " . BASE_URL . "/login.php");
     exit();
 }
 
 $db = getDB();
-$stmt = $db->prepare("SELECT id, name, email, password, role FROM users WHERE email = ? LIMIT 1");
-$stmt->execute([$email]);
+$stmt = $db->prepare("SELECT id, username, name, email, password, role FROM users WHERE email = ? OR username = ? LIMIT 1");
+$stmt->execute([$loginId, $loginId]);
 $user = $stmt->fetch();
 
 if ($user && password_verify($password, $user['password'])) {
@@ -30,6 +30,7 @@ if ($user && password_verify($password, $user['password'])) {
     session_regenerate_id(true);
 
     $_SESSION['user_id'] = (int)$user['id'];
+    $_SESSION['user_username'] = $user['username'] ?? '';
     $_SESSION['user_name'] = $user['name'];
     $_SESSION['user_email'] = $user['email'];
     $_SESSION['user_role'] = $user['role'];
@@ -43,7 +44,7 @@ if ($user && password_verify($password, $user['password'])) {
     }
     exit();
 } else {
-    setFlash('error', "Invalid email address or password. Please try again.");
+    setFlash('error', "Invalid username/email or password. Please try again.");
     header("Location: " . BASE_URL . "/login.php");
     exit();
 }

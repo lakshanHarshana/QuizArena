@@ -1,6 +1,7 @@
 <?php
-$pageTitle = "Edit Quiz";
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/functions.php';
 requireTeacher();
 
 $teacherId = (int)$_SESSION['user_id'];
@@ -58,6 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 }
+
+$pageTitle = "Edit Quiz";
+require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="container py-4">

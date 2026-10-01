@@ -1,6 +1,7 @@
 <?php
-$pageTitle = "Teacher Dashboard";
-require_once __DIR__ . '/../includes/header.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/functions.php';
 requireTeacher();
 
 $teacherId = (int)$_SESSION['user_id'];
@@ -29,6 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     header("Location: " . BASE_URL . "/teacher/dashboard.php");
     exit();
 }
+
+$pageTitle = "Teacher Dashboard";
+require_once __DIR__ . '/../includes/header.php';
 
 // Fetch teacher profile
 $profStmt = $db->prepare("SELECT * FROM teacher_profiles WHERE user_id = ? LIMIT 1");
