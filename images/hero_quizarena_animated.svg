@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 560" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 600" width="100%" height="100%">
   <defs>
-    <!-- Background & Accent Gradients -->
+    <!-- Background & Cosmic Gradients -->
     <radialGradient id="arenaUniverseGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4" />
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.45" />
       <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.15" />
       <stop offset="100%" stop-color="#0b0f19" stop-opacity="0" />
     </radialGradient>
@@ -26,7 +26,7 @@
 
     <!-- Filter Effects -->
     <filter id="glowFilt" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feGaussianBlur stdDeviation="8" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
@@ -34,11 +34,11 @@
     </filter>
 
     <filter id="badgeShadow" x="-25%" y="-25%" width="150%" height="150%">
-      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6" />
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.6" />
     </filter>
 
     <style>
-      /* Smooth Keyframe Animations */
+      /* Smooth Keyframe Animations using ONLY transform on elements with fixed transform-origin */
       @keyframes floatUniverse {
         0%, 100% { transform: translateY(0px); }
         50% { transform: translateY(-10px); }
@@ -55,18 +55,6 @@
         0%, 100% { transform: scale(1); opacity: 0.35; }
         50% { transform: scale(1.15); opacity: 0.6; }
       }
-      @keyframes floatCard1 {
-        0%, 100% { transform: translateY(0px) rotate(-1deg); }
-        50% { transform: translateY(-7px) rotate(1.5deg); }
-      }
-      @keyframes floatCard2 {
-        0%, 100% { transform: translateY(0px) rotate(1.5deg); }
-        50% { transform: translateY(-9px) rotate(-1deg); }
-      }
-      @keyframes floatCard3 {
-        0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
-        50% { transform: translateY(-8px) rotate(1deg); }
-      }
       @keyframes ringTick {
         0%, 100% { stroke-dashoffset: 80; }
         50% { stroke-dashoffset: 260; }
@@ -75,30 +63,25 @@
         0%, 100% { filter: drop-shadow(0 0 4px #fbbf24); }
         50% { filter: drop-shadow(0 0 14px #f59e0b); }
       }
+      @keyframes badgePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+      }
 
       .universe-container {
-        animation: floatUniverse 4s ease-in-out infinite;
+        animation: floatUniverse 4.5s ease-in-out infinite;
       }
       .ring-clockwise {
-        transform-origin: 325px 260px;
-        animation: spinCW 26s linear infinite;
+        transform-origin: 350px 300px;
+        animation: spinCW 28s linear infinite;
       }
       .ring-counter {
-        transform-origin: 325px 260px;
-        animation: spinCCW 20s linear infinite;
+        transform-origin: 350px 300px;
+        animation: spinCCW 22s linear infinite;
       }
       .aura-glow {
-        transform-origin: 325px 260px;
+        transform-origin: 350px 300px;
         animation: pulseAura 3.5s ease-in-out infinite;
-      }
-      .card-float-tech {
-        animation: floatCard1 3.2s ease-in-out infinite;
-      }
-      .card-float-science {
-        animation: floatCard2 3.6s ease-in-out infinite 0.4s;
-      }
-      .card-float-art {
-        animation: floatCard3 3.4s ease-in-out infinite 0.8s;
       }
       .timer-stroke-dyn {
         animation: ringTick 5s ease-in-out infinite alternate;
@@ -106,44 +89,62 @@
       .bolt-glow {
         animation: boltPulse 2s ease-in-out infinite alternate;
       }
+
+      /* Each card has a fixed transform origin at its own center */
+      .card-tech {
+        transform-origin: 105px 65px;
+        animation: badgePulse 3.2s ease-in-out infinite;
+      }
+      .card-science {
+        transform-origin: 595px 65px;
+        animation: badgePulse 3.6s ease-in-out infinite 0.5s;
+      }
+      .card-arts {
+        transform-origin: 595px 535px;
+        animation: badgePulse 3.4s ease-in-out infinite 1s;
+      }
+      .card-multi {
+        transform-origin: 105px 535px;
+        animation: badgePulse 3.8s ease-in-out infinite 1.5s;
+      }
     </style>
   </defs>
 
   <!-- Ambient Radiant Halo -->
-  <circle cx="325" cy="260" r="250" fill="url(#arenaUniverseGlow)" class="aura-glow" />
+  <circle cx="350" cy="300" r="260" fill="url(#arenaUniverseGlow)" class="aura-glow" />
 
   <g class="universe-container">
     <!-- Outer Gyroscope Tech Ring (Clockwise) -->
     <g class="ring-clockwise">
-      <circle cx="325" cy="260" r="215" fill="none" stroke="url(#orbitBeam1)" stroke-width="2.5" stroke-dasharray="16 14 36 14" />
-      <circle cx="540" cy="260" r="5" fill="#38bdf8" filter="url(#glowFilt)" />
-      <circle cx="110" cy="260" r="5" fill="#a855f7" filter="url(#glowFilt)" />
+      <circle cx="350" cy="300" r="225" fill="none" stroke="url(#orbitBeam1)" stroke-width="2.5" stroke-dasharray="16 14 36 14" />
+      <circle cx="575" cy="300" r="5" fill="#38bdf8" filter="url(#glowFilt)" />
+      <circle cx="125" cy="300" r="5" fill="#a855f7" filter="url(#glowFilt)" />
     </g>
 
     <!-- Inner Concentric Orbit (Counter-Clockwise) -->
     <g class="ring-counter">
-      <circle cx="325" cy="260" r="175" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-dasharray="10 10 24 10" stroke-opacity="0.6" />
-      <circle cx="325" cy="85" r="4.5" fill="#10b981" filter="url(#glowFilt)" />
-      <circle cx="325" cy="435" r="4.5" fill="#f59e0b" filter="url(#glowFilt)" />
+      <circle cx="350" cy="300" r="185" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-dasharray="10 10 24 10" stroke-opacity="0.6" />
+      <circle cx="350" cy="115" r="4.5" fill="#10b981" filter="url(#glowFilt)" />
+      <circle cx="350" cy="485" r="4.5" fill="#f59e0b" filter="url(#glowFilt)" />
     </g>
 
     <!-- Central Arena Shield & Knowledge Hub -->
     <g filter="url(#badgeShadow)">
       <!-- Octagonal Combat Shield -->
-      <polygon points="325,130 420,168 455,260 420,352 325,390 230,352 195,260 230,168" 
+      <polygon points="350,170 445,208 480,300 445,392 350,430 255,392 220,300 255,208" 
                fill="url(#shieldGrad)" stroke="#6366f1" stroke-width="3" />
 
       <!-- Inner Holographic Ring -->
-      <polygon points="325,145 407,178 437,260 407,342 325,375 243,342 213,260 243,178" 
+      <polygon points="350,185 432,218 462,300 432,382 350,415 268,382 238,300 268,218" 
                fill="#0a0f1d" fill-opacity="0.8" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="6 4" />
 
       <!-- Real-Time Dynamic Timer Arc -->
-      <circle cx="325" cy="260" r="82" fill="none" stroke="#334155" stroke-width="6" />
-      <circle cx="325" cy="260" r="82" fill="none" stroke="url(#timerProgGrad)" stroke-width="6" 
+      <circle cx="350" cy="300" r="82" fill="none" stroke="#334155" stroke-width="6" />
+      <circle cx="350" cy="300" r="82" fill="none" stroke="url(#timerProgGrad)" stroke-width="6" 
               stroke-linecap="round" stroke-dasharray="515" stroke-dashoffset="120" class="timer-stroke-dyn" />
 
       <!-- Core Knowledge Trophy & Arena Lightning -->
-      <g transform="translate(325, 260)">
+      <g transform="translate(350, 300)">
         <path d="M-28,-32 L28,-32 C28,0 18,22 0,28 C-18,22 -28,0 -28,-32 Z" fill="#1e1b4b" stroke="#818cf8" stroke-width="2" />
         <path d="M-28,-22 C-40,-22 -40,5 -22,8" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" />
         <path d="M28,-22 C40,-22 40,5 22,8" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" />
@@ -153,52 +154,55 @@
       </g>
     </g>
 
-    <!-- Pillar 1 (Top-Left): TECHNOLOGY & COMPUTING -->
-    <g class="card-float-tech" transform="translate(25, 75)" filter="url(#badgeShadow)">
-      <rect x="0" y="0" width="185" height="62" rx="14" fill="#0f172a" stroke="#06b6d4" stroke-width="1.8" fill-opacity="0.96" />
-      <circle cx="30" cy="31" r="16" fill="#06b6d4" fill-opacity="0.2" />
-      <!-- Binary / Chip Icon -->
-      <path d="M22,25 L38,25 M22,31 L38,31 M22,37 L38,37" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
-      <circle cx="25" cy="25" r="2" fill="#38bdf8" />
-      <circle cx="35" cy="37" r="2" fill="#38bdf8" />
-      <text x="56" y="26" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">TECHNOLOGY</text>
-      <text x="56" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#38bdf8">Coding &amp; AI &amp; IT</text>
+    <!-- ===================================================================
+         DISCIPLINE CARDS: PLACED IN 4 CORNERS WITHOUT OVERLAP
+         =================================================================== -->
+
+    <!-- Pillar 1: TOP-LEFT (Technology & Computing) -->
+    <g class="card-tech" filter="url(#badgeShadow)">
+      <rect x="15" y="35" width="180" height="60" rx="14" fill="#0f172a" stroke="#06b6d4" stroke-width="1.8" fill-opacity="0.96" />
+      <circle cx="45" cy="65" r="16" fill="#06b6d4" fill-opacity="0.2" />
+      <!-- Circuit icon -->
+      <path d="M37,59 L53,59 M37,65 L53,65 M37,71 L53,71" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
+      <circle cx="40" cy="59" r="2" fill="#38bdf8" />
+      <circle cx="50" cy="71" r="2" fill="#38bdf8" />
+      <text x="70" y="58" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">TECHNOLOGY</text>
+      <text x="70" y="78" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#38bdf8">Coding &amp; AI &amp; IT</text>
     </g>
 
-    <!-- Pillar 2 (Top-Right): SCIENCE & MATHEMATICS -->
-    <g class="card-float-science" transform="translate(435, 95)" filter="url(#badgeShadow)">
-      <rect x="0" y="0" width="185" height="62" rx="14" fill="#0f172a" stroke="#10b981" stroke-width="1.8" fill-opacity="0.96" />
-      <circle cx="30" cy="31" r="16" fill="#10b981" fill-opacity="0.2" />
-      <!-- Atom / Science Orbit Icon -->
-      <ellipse cx="30" cy="31" rx="10" ry="4" fill="none" stroke="#34d399" stroke-width="1.5" transform="rotate(30 30 31)" />
-      <ellipse cx="30" cy="31" rx="10" ry="4" fill="none" stroke="#34d399" stroke-width="1.5" transform="rotate(-30 30 31)" />
-      <circle cx="30" cy="31" r="2.5" fill="#34d399" />
-      <text x="56" y="26" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">SCIENCE &amp; MATH</text>
-      <text x="56" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#34d399">Physics, Bio &amp; Chem</text>
+    <!-- Pillar 2: TOP-RIGHT (Science & Mathematics) -->
+    <g class="card-science" filter="url(#badgeShadow)">
+      <rect x="505" y="35" width="180" height="60" rx="14" fill="#0f172a" stroke="#10b981" stroke-width="1.8" fill-opacity="0.96" />
+      <circle cx="535" cy="65" r="16" fill="#10b981" fill-opacity="0.2" />
+      <!-- Atom icon -->
+      <ellipse cx="535" cy="65" rx="10" ry="4" fill="none" stroke="#34d399" stroke-width="1.5" transform="rotate(30 535 65)" />
+      <ellipse cx="535" cy="65" rx="10" ry="4" fill="none" stroke="#34d399" stroke-width="1.5" transform="rotate(-30 535 65)" />
+      <circle cx="535" cy="65" r="2.5" fill="#34d399" />
+      <text x="560" y="58" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">SCIENCE &amp; MATH</text>
+      <text x="560" y="78" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#34d399">Physics, Bio &amp; Chem</text>
     </g>
 
-    <!-- Pillar 3 (Bottom-Center-Right): ARTS, HUMANITIES & DESIGN -->
-    <g class="card-float-art" transform="translate(415, 395)" filter="url(#badgeShadow)">
-      <rect x="0" y="0" width="195" height="62" rx="14" fill="#0f172a" stroke="#ec4899" stroke-width="1.8" fill-opacity="0.96" />
-      <circle cx="30" cy="31" r="16" fill="#ec4899" fill-opacity="0.2" />
-      <!-- Art Palette / Brush Icon -->
-      <path d="M22,35 C20,27 25,22 32,22 C37,22 40,25 39,29 C38,33 34,32 34,34 C34,36 36,36 35,38 C34,40 25,41 22,35 Z" fill="none" stroke="#f472b6" stroke-width="1.8" />
-      <circle cx="28" cy="26" r="1.5" fill="#f472b6" />
-      <circle cx="34" cy="27" r="1.5" fill="#f472b6" />
-      <circle cx="27" cy="31" r="1.5" fill="#f472b6" />
-      <text x="56" y="26" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">ARTS &amp; HUMANITIES</text>
-      <text x="56" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#f472b6">Design, History &amp; Lit</text>
+    <!-- Pillar 3: BOTTOM-LEFT (Multi-Disciplinary) -->
+    <g class="card-multi" filter="url(#badgeShadow)">
+      <rect x="15" y="505" width="180" height="60" rx="14" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.8" fill-opacity="0.96" />
+      <circle cx="45" cy="535" r="16" fill="#8b5cf6" fill-opacity="0.2" />
+      <!-- Academy Mortarboard icon -->
+      <path d="M35,533 L45,528 L55,533 L45,538 Z" fill="none" stroke="#c084fc" stroke-width="1.8" />
+      <path d="M38,535 L38,540 C38,542 45,545 52,540 L52,535" fill="none" stroke="#c084fc" stroke-width="1.5" />
+      <text x="70" y="528" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">MULTI-DOMAIN</text>
+      <text x="70" y="548" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#c084fc">All Disciplines</text>
     </g>
 
-    <!-- Global Discipline Badge (Bottom-Left): ALL FIELDS COVERED -->
-    <g class="card-float-tech" transform="translate(35, 395)" filter="url(#badgeShadow)">
-      <rect x="0" y="0" width="180" height="62" rx="14" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.8" fill-opacity="0.96" />
-      <circle cx="30" cy="31" r="16" fill="#8b5cf6" fill-opacity="0.2" />
-      <!-- Global Graduation / All disciplines icon -->
-      <path d="M20,29 L30,24 L40,29 L30,34 Z" fill="none" stroke="#c084fc" stroke-width="1.8" />
-      <path d="M23,31 L23,36 C23,38 30,41 37,36 L37,31" fill="none" stroke="#c084fc" stroke-width="1.5" />
-      <text x="56" y="26" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">MULTI-DISCIPLINARY</text>
-      <text x="56" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#c084fc">All Domains &amp; Topics</text>
+    <!-- Pillar 4: BOTTOM-RIGHT (Arts & Humanities) -->
+    <g class="card-arts" filter="url(#badgeShadow)">
+      <rect x="505" y="505" width="180" height="60" rx="14" fill="#0f172a" stroke="#ec4899" stroke-width="1.8" fill-opacity="0.96" />
+      <circle cx="535" cy="535" r="16" fill="#ec4899" fill-opacity="0.2" />
+      <!-- Art Palette icon -->
+      <path d="M527,539 C525,531 530,526 537,526 C542,526 545,529 544,533 C543,537 539,536 539,538 C539,540 541,540 540,542 C539,544 530,545 527,539 Z" fill="none" stroke="#f472b6" stroke-width="1.8" />
+      <circle cx="533" cy="530" r="1.5" fill="#f472b6" />
+      <circle cx="539" cy="531" r="1.5" fill="#f472b6" />
+      <text x="560" y="528" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">ARTS &amp; HUMANITIES</text>
+      <text x="560" y="548" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#f472b6">Design, History &amp; Lit</text>
     </g>
   </g>
 </svg>
