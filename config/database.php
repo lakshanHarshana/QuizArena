@@ -55,46 +55,40 @@ set_exception_handler(function (Throwable $e) {
         exit();
     }
 
-    // Friendly academic notification with automatic auto-refresh (recovers instantly)
+    // Friendly user notification with navigation options (no infinite auto-refresh loop)
     if (!headers_sent()) {
         http_response_code(500);
     }
+    $homeUrl = defined('BASE_URL') ? BASE_URL . '/index.php' : '/';
     echo '<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="2">
-        <title>Refreshing — QuizArena</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Notice — QuizArena</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
         <style>body { background: #0f172a; color: #f8fafc; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }</style>
     </head>
     <body>
         <div class="container py-4 text-center" style="max-width: 580px;">
-            <div class="card p-4 bg-dark text-white border-secondary rounded-4 shadow">
-                <div class="mb-3 text-primary fs-1">
-                    <div class="spinner-border text-primary" role="status" style="width: 2.5rem; height: 2.5rem;">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+            <div class="card p-4 p-md-5 bg-dark text-white border-secondary rounded-4 shadow">
+                <div class="mb-3 text-warning fs-1">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
-                <h4 class="fw-bold mb-2">Syncing Platform State...</h4>
-                <p class="text-secondary small mb-3">Database synchronization in progress. Refreshing automatically in <strong class="text-primary" id="syncTimer">2</strong> seconds...</p>
+                <h4 class="fw-bold mb-2">Something Went Wrong</h4>
+                <p class="text-secondary small mb-3">An unexpected situation occurred while processing your request.</p>
                 <div class="alert alert-secondary py-2 small text-start font-monospace mb-4 text-secondary">' . htmlspecialchars($e->getMessage()) . '</div>
-                <button onclick="window.location.reload()" class="btn btn-primary rounded-pill px-4">
-                    Refresh Immediately
-                </button>
+                <div class="d-flex justify-content-center gap-2">
+                    <button onclick="window.location.reload()" class="btn btn-primary rounded-pill px-4">
+                        <i class="fa-solid fa-rotate-right me-1"></i> Try Again
+                    </button>
+                    <a href="' . htmlspecialchars($homeUrl) . '" class="btn btn-outline-light rounded-pill px-4">
+                        <i class="fa-solid fa-house me-1"></i> Go to Home
+                    </a>
+                </div>
             </div>
         </div>
-        <script>
-        let s = 2;
-        const el = document.getElementById("syncTimer");
-        setInterval(() => {
-            s--;
-            if (el) el.textContent = Math.max(0, s);
-            if (s <= 0) {
-                window.location.reload();
-            }
-        }, 1000);
-        </script>
     </body>
     </html>';
     exit();
@@ -146,6 +140,9 @@ class Database {
                     $stmt = $pdo->query("SHOW TABLES LIKE 'users'");
                     if ($stmt->rowCount() === 0) {
                         self::autoMigrate($pdo);
+                    } else {
+                        // Self-healing schema migration: ensure username column and messages table exist
+                        self::ensureSchemaUpdates($pdo);
                     }
 
                     self::$instance = $pdo;
@@ -230,6 +227,55 @@ class Database {
                     }
                 }
             }
+        }
+    }
+
+    private static function ensureSchemaUpdates(PDO $pdo): void {
+        try {
+            // Check if username column exists in users
+            $colCheck = $pdo->query("SHOW COLUMNS FROM `users` LIKE 'username'");
+            if ($colCheck->rowCount() === 0) {
+                $pdo->exec("ALTER TABLE `users` ADD COLUMN `username` VARCHAR(50) NULL AFTER `id`");
+
+                // Populate known default user usernames
+                $pdo->exec("UPDATE `users` SET `username` = 'silva_teacher' WHERE `id` = 1 AND (`username` IS NULL OR `username` = '')");
+                $pdo->exec("UPDATE `users` SET `username` = 'kasun_p' WHERE `id` = 2 AND (`username` IS NULL OR `username` = '')");
+                $pdo->exec("UPDATE `users` SET `username` = 'nimal_s' WHERE `id` = 3 AND (`username` IS NULL OR `username` = '')");
+                $pdo->exec("UPDATE `users` SET `username` = 'amali_w' WHERE `id` = 4 AND (`username` IS NULL OR `username` = '')");
+
+                // Populate any other user with clean email prefix
+                $remaining = $pdo->query("SELECT id, email FROM `users` WHERE `username` IS NULL OR `username` = ''")->fetchAll();
+                foreach ($remaining as $u) {
+                    $prefix = explode('@', $u['email'])[0];
+                    $cleanPrefix = preg_replace('/[^a-zA-Z0-9_]/', '', $prefix);
+                    if (empty($cleanPrefix)) {
+                        $cleanPrefix = 'user_' . $u['id'];
+                    }
+                    $stmtUp = $pdo->prepare("UPDATE `users` SET `username` = ? WHERE `id` = ?");
+                    $stmtUp->execute([$cleanPrefix, $u['id']]);
+                }
+
+                $pdo->exec("ALTER TABLE `users` MODIFY COLUMN `username` VARCHAR(50) NOT NULL");
+                try {
+                    $pdo->exec("ALTER TABLE `users` ADD UNIQUE INDEX `idx_users_username` (`username`)");
+                } catch (Exception $idxEx) {
+                    // index already exists
+                }
+            }
+
+            // Ensure messages table exists
+            $msgCheck = $pdo->query("SHOW TABLES LIKE 'messages'");
+            if ($msgCheck->rowCount() === 0) {
+                $pdo->exec("CREATE TABLE IF NOT EXISTS `messages` (
+                    `id` INT AUTO_INCREMENT PRIMARY KEY,
+                    `name` VARCHAR(100) NOT NULL,
+                    `email` VARCHAR(120) NOT NULL,
+                    `message` TEXT NOT NULL,
+                    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+            }
+        } catch (Exception $e) {
+            error_log("Schema self-healing error: " . $e->getMessage());
         }
     }
 }
