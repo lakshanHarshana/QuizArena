@@ -220,7 +220,7 @@ require_once __DIR__ . '/../includes/header.php';
     <div class="row g-4">
         <!-- Question Form (Add / Edit) -->
         <div class="col-lg-5">
-            <div class="arena-card p-4 sticky-top" style="top: 85px;">
+            <div class="arena-card p-4 sticky-top" style="top: 85px; z-index: 10;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold text-white mb-0">
                         <i class="fa-solid <?= $editQuestion ? 'fa-pen text-warning' : 'fa-plus text-primary' ?> me-2"></i>

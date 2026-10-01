@@ -58,11 +58,12 @@ main {
 
 /* Navbar */
 .navbar-quizarena {
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-color);
     transition: all 0.3s ease;
+    z-index: 1050 !important;
 }
 
 .navbar-brand-arena {

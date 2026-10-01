@@ -18,23 +18,23 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
     $description = trim($_POST['description'] ?? '');
-    $categoryId = (int)($_POST['category_id'] ?? 0);
-    $difficulty = trim($_POST['difficulty'] ?? 'Medium');
-    $startDatetime = trim($_POST['start_datetime'] ?? '');
-    $endDatetime = trim($_POST['end_datetime'] ?? '');
-    $maxAttempts = max(1, (int)($_POST['max_attempts'] ?? 1));
-    $status = in_array($_POST['status'] ?? '', ['published', 'draft']) ? $_POST['status'] : 'published';
 
     // Validation
     if (empty($title)) {
         $error = "Quiz title is required.";
-    } elseif ($categoryId <= 0) {
-        $error = "Please select a valid quiz category.";
-    } elseif (empty($startDatetime) || empty($endDatetime)) {
-        $error = "Both start and end dates/times are required.";
-    } elseif (strtotime($endDatetime) <= strtotime($startDatetime)) {
-        $error = "End date and time must be later than the start date and time.";
     } else {
+        // Fetch default category ID if available
+        $defaultCatStmt = $db->query("SELECT id FROM categories ORDER BY id ASC LIMIT 1");
+        $defaultCat = $defaultCatStmt->fetch();
+        $categoryId = $defaultCat ? (int)$defaultCat['id'] : 1;
+
+        // Default initial schedule and settings (Teacher defines Date, Time & Done in Step 2/3)
+        $difficulty = 'Medium';
+        $startDatetime = date('Y-m-d H:i:s');
+        $endDatetime = date('Y-m-d H:i:s', strtotime('+7 days'));
+        $maxAttempts = 1;
+        $status = 'published';
+
         // Generate a guaranteed unique quiz code at insertion time
         $finalQuizCode = generateUniqueQuizCode();
 
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $newQuizId = (int)$db->lastInsertId();
 
-        setFlash('success', "Quiz created successfully with Quiz ID: <strong>{$finalQuizCode}</strong>. Now add your MCQ questions!");
+        setFlash('success', "Quiz \"<strong>" . htmlspecialchars($title) . "</strong>\" created with Quiz ID <strong>{$finalQuizCode}</strong>. Now set your questions and answers!");
         header("Location: " . BASE_URL . "/teacher/manage_questions.php?quiz_id=" . $newQuizId);
         exit();
     }
@@ -120,64 +120,19 @@ $defaultEnd = date('Y-m-d\TH:i', strtotime('+7 days'));
                 </div>
 
                 <form action="<?= BASE_URL ?>/teacher/create_quiz.php" method="POST" id="quizForm" novalidate>
-                    <div class="row g-3">
+                    <div class="row g-4">
                         <div class="col-12">
-                            <label for="title" class="form-label">Quiz Title <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-arena" id="title" name="title" required placeholder="e.g. Database Fundamentals" value="<?= isset($_POST['title']) ? sanitize($_POST['title']) : '' ?>">
+                            <label for="title" class="form-label fw-semibold">Quiz Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-arena fs-5 py-2" id="title" name="title" required placeholder="e.g. Database Fundamentals & SQL Mastery" value="<?= isset($_POST['title']) ? sanitize($_POST['title']) : '' ?>">
                             <div class="invalid-feedback">Quiz title is required.</div>
                         </div>
 
                         <div class="col-12">
-                            <label for="description" class="form-label">Quiz Description</label>
-                            <textarea class="form-control form-arena" id="description" name="description" rows="3" placeholder="Provide context, instructions, or topics covered..."><?= isset($_POST['description']) ? sanitize($_POST['description']) : '' ?></textarea>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="category_id" class="form-label">Category <span class="text-danger">*</span></label>
-                            <select class="form-select form-arena" id="category_id" name="category_id" required>
-                                <option value="">Select Category...</option>
-                                <?php foreach ($categories as $cat): ?>
-                                    <option value="<?= $cat['id'] ?>" <?= (isset($_POST['category_id']) && (int)$_POST['category_id'] === (int)$cat['id']) ? 'selected' : '' ?>>
-                                        <?= sanitize($cat['name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div class="invalid-feedback">Please select a category.</div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="difficulty" class="form-label">Difficulty Level</label>
-                            <select class="form-select form-arena" id="difficulty" name="difficulty">
-                                <option value="Easy" <?= (isset($_POST['difficulty']) && $_POST['difficulty'] === 'Easy') ? 'selected' : '' ?>>Easy</option>
-                                <option value="Medium" <?= (!isset($_POST['difficulty']) || $_POST['difficulty'] === 'Medium') ? 'selected' : '' ?>>Medium</option>
-                                <option value="Hard" <?= (isset($_POST['difficulty']) && $_POST['difficulty'] === 'Hard') ? 'selected' : '' ?>>Hard</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="start_datetime" class="form-label">Initial Start Date &amp; Time <span class="text-danger">*</span></label>
-                            <input type="datetime-local" class="form-control form-arena" id="start_datetime" name="start_datetime" required value="<?= isset($_POST['start_datetime']) ? sanitize($_POST['start_datetime']) : $defaultStart ?>">
-                            <div class="form-text text-secondary" style="font-size: 0.72rem;">Can be adjusted after adding questions</div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="end_datetime" class="form-label">Initial End Date &amp; Time <span class="text-danger">*</span></label>
-                            <input type="datetime-local" class="form-control form-arena" id="end_datetime" name="end_datetime" required value="<?= isset($_POST['end_datetime']) ? sanitize($_POST['end_datetime']) : $defaultEnd ?>">
-                            <div class="form-text text-secondary" style="font-size: 0.72rem;">Can be adjusted after adding questions</div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="max_attempts" class="form-label">Maximum Attempts per Student</label>
-                            <input type="number" class="form-control form-arena" id="max_attempts" name="max_attempts" min="1" max="10" value="<?= isset($_POST['max_attempts']) ? (int)$_POST['max_attempts'] : 1 ?>">
-                            <div class="form-text text-secondary" style="font-size: 0.72rem;">Default 1 attempt</div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="status" class="form-label">Publishing Status</label>
-                            <select class="form-select form-arena" id="status" name="status">
-                                <option value="published" <?= (!isset($_POST['status']) || $_POST['status'] === 'published') ? 'selected' : '' ?>>Published (Live according to schedule)</option>
-                                <option value="draft" <?= (isset($_POST['status']) && $_POST['status'] === 'draft') ? 'selected' : '' ?>>Draft (Keep as draft)</option>
-                            </select>
+                            <label for="description" class="form-label fw-semibold">Quiz Description <span class="text-secondary small fw-normal">(Optional)</span></label>
+                            <textarea class="form-control form-arena" id="description" name="description" rows="4" placeholder="Provide overview, instructions, or topics covered for your students..."><?= isset($_POST['description']) ? sanitize($_POST['description']) : '' ?></textarea>
+                            <div class="form-text text-secondary">
+                                <i class="fa-solid fa-lightbulb text-warning me-1"></i> You will set up questions &amp; answers next. Date, time, and scheduling are defined right before completing the quiz.
+                            </div>
                         </div>
 
                         <div class="col-12 mt-4 pt-2 border-top border-secondary">

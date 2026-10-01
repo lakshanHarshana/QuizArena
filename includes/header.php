@@ -34,7 +34,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <body>
 
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark navbar-quizarena sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-quizarena sticky-top" style="z-index: 1050;">
     <div class="container">
         <a class="navbar-brand navbar-brand-arena" href="<?= BASE_URL ?>/index.php">
             <i class="fa-solid fa-gamepad text-primary"></i>
