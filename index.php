@@ -155,63 +155,157 @@ $studentCount = $db->query("SELECT COUNT(*) FROM users WHERE role = 'student'")-
     </div>
 </section>
 
-<!-- How It Works Section -->
+<!-- How It Works Section (Role-Based: Student & Teacher Tracks) -->
 <section id="how-it-works" class="py-5">
     <div class="container py-4">
-        <div class="text-center mb-5">
-            <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-1 rounded-pill mb-2">Interactive Workflow</span>
+        <div class="text-center mb-4">
+            <span class="badge bg-primary bg-opacity-25 text-primary border border-primary border-opacity-25 px-3 py-1 rounded-pill mb-2">Role-Based Workflows</span>
             <h2 class="fw-bold text-white">How QuizArena Works</h2>
-            <p class="text-secondary" style="max-width: 600px; margin: 0 auto;">
-                A seamless flow connecting teachers with students in a competitive real-time quiz arena.
+            <p class="text-secondary" style="max-width: 620px; margin: 0 auto;">
+                Tailored, intuitive step-by-step journeys for both students challenging their knowledge and educators managing quizzes.
             </p>
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="arena-card p-4 h-100 text-center">
-                    <div class="d-inline-flex p-3 rounded-circle bg-primary bg-opacity-10 text-primary mb-3">
-                        <i class="fa-solid fa-pen-to-square fa-2x"></i>
+        <!-- Role Selector Tabs -->
+        <div class="d-flex justify-content-center mb-5">
+            <ul class="nav nav-pills bg-dark p-1 rounded-pill border border-secondary" id="roleWorkflowTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active rounded-pill px-4 py-2 fw-semibold" id="student-tab" data-bs-toggle="pill" data-bs-target="#student-workflow" type="button" role="tab" aria-controls="student-workflow" aria-selected="true">
+                        <i class="fa-solid fa-graduation-cap me-2 text-info"></i>For Students
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill px-4 py-2 fw-semibold" id="teacher-tab" data-bs-toggle="pill" data-bs-target="#teacher-workflow" type="button" role="tab" aria-controls="teacher-workflow" aria-selected="false">
+                        <i class="fa-solid fa-chalkboard-user me-2 text-warning"></i>For Teachers
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content" id="roleWorkflowContent">
+            <!-- STUDENT WORKFLOW TRACK -->
+            <div class="tab-pane fade show active" id="student-workflow" role="tabpanel" aria-labelledby="student-tab">
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="arena-card p-4 h-100 text-center position-relative">
+                            <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill px-3 py-1 mb-3 small fw-bold">Step 1</span>
+                            <div class="d-inline-flex p-3 rounded-circle bg-info bg-opacity-10 text-info mb-3">
+                                <i class="fa-solid fa-key fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">Enter Quiz ID</h5>
+                            <p class="text-secondary small mb-0">
+                                Grab the unique Quiz ID provided by your teacher (e.g. <code>QUIZ-7F3A21</code>) and instantly launch the arena lobby.
+                            </p>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-white mb-2">1. Teacher Creates</h5>
-                    <p class="text-secondary small mb-0">
-                        Teacher sets up the quiz, adds MCQs with individual question times. The system auto-generates a unique Quiz ID.
-                    </p>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="arena-card p-4 h-100 text-center position-relative">
+                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-1 mb-3 small fw-bold">Step 2</span>
+                            <div class="d-inline-flex p-3 rounded-circle bg-primary bg-opacity-10 text-primary mb-3">
+                                <i class="fa-solid fa-stopwatch fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">Dual Live Timers</h5>
+                            <p class="text-secondary small mb-0">
+                                Answer before the individual question timer expires while tracking total remaining time on synchronized countdowns.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="arena-card p-4 h-100 text-center position-relative">
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1 mb-3 small fw-bold">Step 3</span>
+                            <div class="d-inline-flex p-3 rounded-circle bg-success bg-opacity-10 text-success mb-3">
+                                <i class="fa-solid fa-bolt fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">Instant Feedback</h5>
+                            <p class="text-secondary small mb-0">
+                                Select your MCQ option and experience immediate Green/Red response animations, audio signals, and auto-progression.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="arena-card p-4 h-100 text-center position-relative">
+                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-3 py-1 mb-3 small fw-bold">Step 4</span>
+                            <div class="d-inline-flex p-3 rounded-circle bg-warning bg-opacity-10 text-warning mb-3">
+                                <i class="fa-solid fa-trophy fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">Leaderboard &amp; Ranks</h5>
+                            <p class="text-secondary small mb-0">
+                                Receive automated grading, review detailed question-by-question analytics, and view your position on the class leaderboard.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-arena-primary px-4 py-2 rounded-pill" data-bs-toggle="modal" data-bs-target="#quickJoinModal">
+                        <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Join a Quiz as Student
+                    </button>
                 </div>
             </div>
 
-            <div class="col-md-6 col-lg-3">
-                <div class="arena-card p-4 h-100 text-center">
-                    <div class="d-inline-flex p-3 rounded-circle bg-info bg-opacity-10 text-info mb-3">
-                        <i class="fa-solid fa-calculator fa-2x"></i>
+            <!-- TEACHER WORKFLOW TRACK -->
+            <div class="tab-pane fade" id="teacher-workflow" role="tabpanel" aria-labelledby="teacher-tab">
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="arena-card p-4 h-100 text-center position-relative">
+                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-3 py-1 mb-3 small fw-bold">Step 1</span>
+                            <div class="d-inline-flex p-3 rounded-circle bg-warning bg-opacity-10 text-warning mb-3">
+                                <i class="fa-solid fa-heading fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">Title &amp; Concept</h5>
+                            <p class="text-secondary small mb-0">
+                                Enter quiz title and description. The system instantly reserves an auto-generated unique Quiz ID for your session.
+                            </p>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-white mb-2">2. Auto Total Time</h5>
-                    <p class="text-secondary small mb-0">
-                        The overall quiz duration is automatically calculated as the sum of all question times. No manual guesswork.
-                    </p>
-                </div>
-            </div>
 
-            <div class="col-md-6 col-lg-3">
-                <div class="arena-card p-4 h-100 text-center">
-                    <div class="d-inline-flex p-3 rounded-circle bg-warning bg-opacity-10 text-warning mb-3">
-                        <i class="fa-solid fa-bolt fa-2x"></i>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="arena-card p-4 h-100 text-center position-relative">
+                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-1 mb-3 small fw-bold">Step 2</span>
+                            <div class="d-inline-flex p-3 rounded-circle bg-primary bg-opacity-10 text-primary mb-3">
+                                <i class="fa-solid fa-list-check fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">Set MCQs &amp; Timers</h5>
+                            <p class="text-secondary small mb-0">
+                                Input questions, 4 options, marks, and specific question timers. Total quiz duration is automatically calculated!
+                            </p>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-white mb-2">3. Instant Feedback</h5>
-                    <p class="text-secondary small mb-0">
-                        Students pick answers and get instant visual GREEN / RED feedback, locked options, and smooth auto-transitions.
-                    </p>
-                </div>
-            </div>
 
-            <div class="col-md-6 col-lg-3">
-                <div class="arena-card p-4 h-100 text-center">
-                    <div class="d-inline-flex p-3 rounded-circle bg-success bg-opacity-10 text-success mb-3">
-                        <i class="fa-solid fa-trophy fa-2x"></i>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="arena-card p-4 h-100 text-center position-relative">
+                            <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill px-3 py-1 mb-3 small fw-bold">Step 3</span>
+                            <div class="d-inline-flex p-3 rounded-circle bg-info bg-opacity-10 text-info mb-3">
+                                <i class="fa-solid fa-calendar-check fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">Schedule &amp; Done</h5>
+                            <p class="text-secondary small mb-0">
+                                Define start date/time, deadline, and allowed attempts, then hit <strong>Done</strong> to publish live for your students.
+                            </p>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-white mb-2">4. Auto-Submit & Ranks</h5>
-                    <p class="text-secondary small mb-0">
-                        When overall time ends, the quiz auto-submits. Scores and leaderboard rankings are dynamically calculated.
-                    </p>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="arena-card p-4 h-100 text-center position-relative">
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1 mb-3 small fw-bold">Step 4</span>
+                            <div class="d-inline-flex p-3 rounded-circle bg-success bg-opacity-10 text-success mb-3">
+                                <i class="fa-solid fa-chart-pie fa-2x"></i>
+                            </div>
+                            <h5 class="fw-bold text-white mb-2">Live Insights</h5>
+                            <p class="text-secondary small mb-0">
+                                Monitor student submissions, question-by-question pass rates, score distributions, and export results directly.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="<?= BASE_URL ?>/teacher/create_quiz.php" class="btn btn-arena-primary px-4 py-2 rounded-pill">
+                        <i class="fa-solid fa-plus-circle me-2"></i>Create a Quiz as Teacher
+                    </a>
                 </div>
             </div>
         </div>

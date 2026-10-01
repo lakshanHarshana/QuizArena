@@ -1,215 +1,204 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 550" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 560" width="100%" height="100%">
   <defs>
-    <!-- Gradients -->
-    <linearGradient id="arenaCoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#6366f1" />
-      <stop offset="50%" stop-color="#8b5cf6" />
-      <stop offset="100%" stop-color="#ec4899" />
-    </linearGradient>
-
-    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.9" />
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95" />
-    </linearGradient>
-
-    <linearGradient id="beamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
-      <stop offset="50%" stop-color="#818cf8" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#c084fc" stop-opacity="0" />
-    </linearGradient>
-
-    <radialGradient id="arenaGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.45" />
-      <stop offset="60%" stop-color="#8b5cf6" stop-opacity="0.15" />
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0" />
+    <!-- Background & Accent Gradients -->
+    <radialGradient id="arenaUniverseGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4" />
+      <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#0b0f19" stop-opacity="0" />
     </radialGradient>
 
-    <!-- Filters -->
-    <filter id="coreGlowFilter" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="12" result="blur" />
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98" />
+    </linearGradient>
+
+    <linearGradient id="orbitBeam1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.2" />
+      <stop offset="50%" stop-color="#818cf8" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0.2" />
+    </linearGradient>
+
+    <linearGradient id="timerProgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+
+    <!-- Filter Effects -->
+    <filter id="glowFilt" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
 
-    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.5" />
+    <filter id="badgeShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6" />
     </filter>
 
     <style>
-      /* Smooth CSS Keyframe Animations */
-      @keyframes floatArena {
+      /* Smooth Keyframe Animations */
+      @keyframes floatUniverse {
         0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-12px); }
+        50% { transform: translateY(-10px); }
       }
-      @keyframes spinClockwise {
+      @keyframes spinCW {
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
       }
-      @keyframes spinCounterClockwise {
+      @keyframes spinCCW {
         from { transform: rotate(360deg); }
         to { transform: rotate(0deg); }
       }
       @keyframes pulseAura {
         0%, 100% { transform: scale(1); opacity: 0.35; }
-        50% { transform: scale(1.18); opacity: 0.65; }
+        50% { transform: scale(1.15); opacity: 0.6; }
       }
-      @keyframes pulseCore {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.06); }
+      @keyframes floatCard1 {
+        0%, 100% { transform: translateY(0px) rotate(-1deg); }
+        50% { transform: translateY(-7px) rotate(1.5deg); }
       }
-      @keyframes orbitParticle1 {
-        0% { transform: rotate(0deg) translateX(190px) rotate(0deg); }
-        100% { transform: rotate(360deg) translateX(190px) rotate(-360deg); }
+      @keyframes floatCard2 {
+        0%, 100% { transform: translateY(0px) rotate(1.5deg); }
+        50% { transform: translateY(-9px) rotate(-1deg); }
       }
-      @keyframes orbitParticle2 {
-        0% { transform: rotate(180deg) translateX(190px) rotate(-180deg); }
-        100% { transform: rotate(540deg) translateX(190px) rotate(-540deg); }
+      @keyframes floatCard3 {
+        0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
+        50% { transform: translateY(-8px) rotate(1deg); }
       }
-      @keyframes badgeFloat1 {
-        0%, 100% { transform: translateY(0px) rotate(-2deg); }
-        50% { transform: translateY(-8px) rotate(2deg); }
+      @keyframes ringTick {
+        0%, 100% { stroke-dashoffset: 80; }
+        50% { stroke-dashoffset: 260; }
       }
-      @keyframes badgeFloat2 {
-        0%, 100% { transform: translateY(0px) rotate(2deg); }
-        50% { transform: translateY(-10px) rotate(-2deg); }
-      }
-      @keyframes timerTick {
-        0%, 100% { stroke-dashoffset: 60; }
-        50% { stroke-dashoffset: 240; }
-      }
-      @keyframes lightningFlash {
-        0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 6px #fbbf24); }
-        50% { opacity: 1; filter: drop-shadow(0 0 16px #f59e0b); }
+      @keyframes boltPulse {
+        0%, 100% { filter: drop-shadow(0 0 4px #fbbf24); }
+        50% { filter: drop-shadow(0 0 14px #f59e0b); }
       }
 
-      .arena-master-group {
-        animation: floatArena 4s ease-in-out infinite;
+      .universe-container {
+        animation: floatUniverse 4s ease-in-out infinite;
       }
-      .ring-cw {
-        transform-origin: 300px 250px;
-        animation: spinClockwise 24s linear infinite;
+      .ring-clockwise {
+        transform-origin: 325px 260px;
+        animation: spinCW 26s linear infinite;
       }
-      .ring-ccw {
-        transform-origin: 300px 250px;
-        animation: spinCounterClockwise 18s linear infinite;
+      .ring-counter {
+        transform-origin: 325px 260px;
+        animation: spinCCW 20s linear infinite;
       }
       .aura-glow {
-        transform-origin: 300px 250px;
-        animation: pulseAura 3s ease-in-out infinite;
+        transform-origin: 325px 260px;
+        animation: pulseAura 3.5s ease-in-out infinite;
       }
-      .arena-center {
-        transform-origin: 300px 250px;
-        animation: pulseCore 3.5s ease-in-out infinite;
+      .card-float-tech {
+        animation: floatCard1 3.2s ease-in-out infinite;
       }
-      .orbiting-1 {
-        transform-origin: 300px 250px;
-        animation: orbitParticle1 12s linear infinite;
+      .card-float-science {
+        animation: floatCard2 3.6s ease-in-out infinite 0.4s;
       }
-      .orbiting-2 {
-        transform-origin: 300px 250px;
-        animation: orbitParticle2 12s linear infinite;
+      .card-float-art {
+        animation: floatCard3 3.4s ease-in-out infinite 0.8s;
       }
-      .badge-orbit-left {
-        animation: badgeFloat1 3.2s ease-in-out infinite;
+      .timer-stroke-dyn {
+        animation: ringTick 5s ease-in-out infinite alternate;
       }
-      .badge-orbit-right {
-        animation: badgeFloat2 3.6s ease-in-out infinite 0.5s;
-      }
-      .timer-progress-ring {
-        animation: timerTick 6s ease-in-out infinite alternate;
-      }
-      .lightning-glow {
-        animation: lightningFlash 2s ease-in-out infinite alternate;
+      .bolt-glow {
+        animation: boltPulse 2s ease-in-out infinite alternate;
       }
     </style>
   </defs>
 
-  <!-- Ambient Glow Background -->
-  <circle cx="300" cy="250" r="240" fill="url(#arenaGlow)" class="aura-glow" />
+  <!-- Ambient Radiant Halo -->
+  <circle cx="325" cy="260" r="250" fill="url(#arenaUniverseGlow)" class="aura-glow" />
 
-  <g class="arena-master-group">
-    <!-- Outer Gyroscope Orbital Ring (Clockwise) -->
-    <g class="ring-cw">
-      <circle cx="300" cy="250" r="215" fill="none" stroke="url(#beamGrad)" stroke-width="2.5" stroke-dasharray="16 12 40 12" />
-      <circle cx="515" cy="250" r="4.5" fill="#38bdf8" filter="url(#coreGlowFilter)" />
-      <circle cx="85" cy="250" r="4.5" fill="#a855f7" filter="url(#coreGlowFilter)" />
+  <g class="universe-container">
+    <!-- Outer Gyroscope Tech Ring (Clockwise) -->
+    <g class="ring-clockwise">
+      <circle cx="325" cy="260" r="215" fill="none" stroke="url(#orbitBeam1)" stroke-width="2.5" stroke-dasharray="16 14 36 14" />
+      <circle cx="540" cy="260" r="5" fill="#38bdf8" filter="url(#glowFilt)" />
+      <circle cx="110" cy="260" r="5" fill="#a855f7" filter="url(#glowFilt)" />
     </g>
 
-    <!-- Middle Concentric Tech Ring (Counter-Clockwise) -->
-    <g class="ring-ccw">
-      <circle cx="300" cy="250" r="175" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-dasharray="8 8 20 8" stroke-opacity="0.6" />
-      <circle cx="300" cy="75" r="4" fill="#fbbf24" filter="url(#coreGlowFilter)" />
-      <circle cx="300" cy="425" r="4" fill="#10b981" filter="url(#coreGlowFilter)" />
+    <!-- Inner Concentric Orbit (Counter-Clockwise) -->
+    <g class="ring-counter">
+      <circle cx="325" cy="260" r="175" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-dasharray="10 10 24 10" stroke-opacity="0.6" />
+      <circle cx="325" cy="85" r="4.5" fill="#10b981" filter="url(#glowFilt)" />
+      <circle cx="325" cy="435" r="4.5" fill="#f59e0b" filter="url(#glowFilt)" />
     </g>
 
-    <!-- Orbiting Energy Spark Nodes -->
-    <g class="orbiting-1">
-      <circle cx="300" cy="250" r="5" fill="#60a5fa" filter="url(#coreGlowFilter)" />
-    </g>
-    <g class="orbiting-2">
-      <circle cx="300" cy="250" r="5" fill="#f43f5e" filter="url(#coreGlowFilter)" />
-    </g>
-
-    <!-- Central Arena Combat / Quiz Shield Platform -->
-    <g class="arena-center" filter="url(#softShadow)">
-      <!-- Octagonal Arena Shield Outer Ring -->
-      <polygon points="300,120 395,158 430,250 395,342 300,380 205,342 170,250 205,158" 
+    <!-- Central Arena Shield & Knowledge Hub -->
+    <g filter="url(#badgeShadow)">
+      <!-- Octagonal Combat Shield -->
+      <polygon points="325,130 420,168 455,260 420,352 325,390 230,352 195,260 230,168" 
                fill="url(#shieldGrad)" stroke="#6366f1" stroke-width="3" />
 
-      <!-- Inner Glowing Geometric Accent -->
-      <polygon points="300,135 382,168 412,250 382,332 300,365 218,332 188,250 218,168" 
-               fill="#090d16" fill-opacity="0.75" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="6 4" />
+      <!-- Inner Holographic Ring -->
+      <polygon points="325,145 407,178 437,260 407,342 325,375 243,342 213,260 243,178" 
+               fill="#0a0f1d" fill-opacity="0.8" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="6 4" />
 
-      <!-- Timer Radial Ring in Center Arena -->
-      <circle cx="300" cy="250" r="82" fill="none" stroke="#334155" stroke-width="6" />
-      <circle cx="300" cy="250" r="82" fill="none" stroke="url(#arenaCoreGrad)" stroke-width="6" 
-              stroke-linecap="round" stroke-dasharray="515" stroke-dashoffset="120" class="timer-progress-ring" />
+      <!-- Real-Time Dynamic Timer Arc -->
+      <circle cx="325" cy="260" r="82" fill="none" stroke="#334155" stroke-width="6" />
+      <circle cx="325" cy="260" r="82" fill="none" stroke="url(#timerProgGrad)" stroke-width="6" 
+              stroke-linecap="round" stroke-dasharray="515" stroke-dashoffset="120" class="timer-stroke-dyn" />
 
-      <!-- Inner Trophy & Lightning Emblem -->
-      <g transform="translate(300, 250)">
-        <!-- Trophy Cup Base -->
+      <!-- Core Knowledge Trophy & Arena Lightning -->
+      <g transform="translate(325, 260)">
         <path d="M-28,-32 L28,-32 C28,0 18,22 0,28 C-18,22 -28,0 -28,-32 Z" fill="#1e1b4b" stroke="#818cf8" stroke-width="2" />
-        <!-- Trophy Handles -->
         <path d="M-28,-22 C-40,-22 -40,5 -22,8" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" />
         <path d="M28,-22 C40,-22 40,5 22,8" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" />
-        <!-- Trophy Stem & Pedestal -->
         <path d="M-6,28 L6,28 L8,40 L-8,40 Z" fill="#6366f1" />
         <rect x="-18" y="40" width="36" height="8" rx="3" fill="#818cf8" />
-        <!-- Lightning Bolt at Heart of Trophy -->
-        <polygon points="2,-24 -12,-4 0,-4 -2,16 12,-4 0,-4" fill="#fbbf24" class="lightning-glow" />
+        <polygon points="2,-24 -12,-4 0,-4 -2,16 12,-4 0,-4" fill="#fbbf24" class="bolt-glow" />
       </g>
     </g>
 
-    <!-- Floating Satellite Badge 1: Real-Time Timer (Top Right) -->
-    <g class="badge-orbit-right" transform="translate(390, 85)" filter="url(#softShadow)">
-      <rect x="0" y="0" width="165" height="58" rx="14" fill="#111827" stroke="#10b981" stroke-width="1.5" fill-opacity="0.95" />
-      <circle cx="28" cy="29" r="14" fill="#10b981" fill-opacity="0.2" />
-      <path d="M28,21 L28,29 L34,29" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" />
-      <circle cx="28" cy="29" r="11" fill="none" stroke="#10b981" stroke-width="1.5" />
-      <text x="50" y="24" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">AUTO TIMER</text>
-      <text x="50" y="44" font-family="'Courier New', monospace" font-size="15" font-weight="800" fill="#34d399">00:30s SYNC</text>
+    <!-- Pillar 1 (Top-Left): TECHNOLOGY & COMPUTING -->
+    <g class="card-float-tech" transform="translate(25, 75)" filter="url(#badgeShadow)">
+      <rect x="0" y="0" width="185" height="62" rx="14" fill="#0f172a" stroke="#06b6d4" stroke-width="1.8" fill-opacity="0.96" />
+      <circle cx="30" cy="31" r="16" fill="#06b6d4" fill-opacity="0.2" />
+      <!-- Binary / Chip Icon -->
+      <path d="M22,25 L38,25 M22,31 L38,31 M22,37 L38,37" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
+      <circle cx="25" cy="25" r="2" fill="#38bdf8" />
+      <circle cx="35" cy="37" r="2" fill="#38bdf8" />
+      <text x="56" y="26" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">TECHNOLOGY</text>
+      <text x="56" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#38bdf8">Coding &amp; AI &amp; IT</text>
     </g>
 
-    <!-- Floating Satellite Badge 2: Dynamic Leaderboard / Points (Bottom Left) -->
-    <g class="badge-orbit-left" transform="translate(45, 360)" filter="url(#softShadow)">
-      <rect x="0" y="0" width="175" height="60" rx="14" fill="#111827" stroke="#6366f1" stroke-width="1.5" fill-opacity="0.95" />
-      <circle cx="28" cy="30" r="14" fill="#6366f1" fill-opacity="0.2" />
-      <!-- Star Icon -->
-      <polygon points="28,20 31,26 38,27 33,32 34,39 28,35 22,39 23,32 18,27 25,26" fill="#fbbf24" />
-      <text x="50" y="25" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">LEADERBOARD</text>
-      <text x="50" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="14" font-weight="800" fill="#ffffff">Rank #1 <tspan fill="#a855f7" font-size="12">+100 Pts</tspan></text>
+    <!-- Pillar 2 (Top-Right): SCIENCE & MATHEMATICS -->
+    <g class="card-float-science" transform="translate(435, 95)" filter="url(#badgeShadow)">
+      <rect x="0" y="0" width="185" height="62" rx="14" fill="#0f172a" stroke="#10b981" stroke-width="1.8" fill-opacity="0.96" />
+      <circle cx="30" cy="31" r="16" fill="#10b981" fill-opacity="0.2" />
+      <!-- Atom / Science Orbit Icon -->
+      <ellipse cx="30" cy="31" rx="10" ry="4" fill="none" stroke="#34d399" stroke-width="1.5" transform="rotate(30 30 31)" />
+      <ellipse cx="30" cy="31" rx="10" ry="4" fill="none" stroke="#34d399" stroke-width="1.5" transform="rotate(-30 30 31)" />
+      <circle cx="30" cy="31" r="2.5" fill="#34d399" />
+      <text x="56" y="26" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">SCIENCE &amp; MATH</text>
+      <text x="56" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#34d399">Physics, Bio &amp; Chem</text>
     </g>
 
-    <!-- Floating Satellite Badge 3: Instant Answer Validation (Bottom Right) -->
-    <g class="badge-orbit-right" transform="translate(380, 395)" filter="url(#softShadow)">
-      <rect x="0" y="0" width="168" height="52" rx="14" fill="#111827" stroke="#ec4899" stroke-width="1.5" fill-opacity="0.95" />
-      <circle cx="26" cy="26" r="12" fill="#ec4899" fill-opacity="0.2" />
-      <!-- Checkmark -->
-      <path d="M21,26 L25,30 L32,22" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-      <text x="46" y="22" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">MCQ FEEDBACK</text>
-      <text x="46" y="40" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="700" fill="#f43f5e">Instant Locked ✓</text>
+    <!-- Pillar 3 (Bottom-Center-Right): ARTS, HUMANITIES & DESIGN -->
+    <g class="card-float-art" transform="translate(415, 395)" filter="url(#badgeShadow)">
+      <rect x="0" y="0" width="195" height="62" rx="14" fill="#0f172a" stroke="#ec4899" stroke-width="1.8" fill-opacity="0.96" />
+      <circle cx="30" cy="31" r="16" fill="#ec4899" fill-opacity="0.2" />
+      <!-- Art Palette / Brush Icon -->
+      <path d="M22,35 C20,27 25,22 32,22 C37,22 40,25 39,29 C38,33 34,32 34,34 C34,36 36,36 35,38 C34,40 25,41 22,35 Z" fill="none" stroke="#f472b6" stroke-width="1.8" />
+      <circle cx="28" cy="26" r="1.5" fill="#f472b6" />
+      <circle cx="34" cy="27" r="1.5" fill="#f472b6" />
+      <circle cx="27" cy="31" r="1.5" fill="#f472b6" />
+      <text x="56" y="26" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">ARTS &amp; HUMANITIES</text>
+      <text x="56" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#f472b6">Design, History &amp; Lit</text>
+    </g>
+
+    <!-- Global Discipline Badge (Bottom-Left): ALL FIELDS COVERED -->
+    <g class="card-float-tech" transform="translate(35, 395)" filter="url(#badgeShadow)">
+      <rect x="0" y="0" width="180" height="62" rx="14" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.8" fill-opacity="0.96" />
+      <circle cx="30" cy="31" r="16" fill="#8b5cf6" fill-opacity="0.2" />
+      <!-- Global Graduation / All disciplines icon -->
+      <path d="M20,29 L30,24 L40,29 L30,34 Z" fill="none" stroke="#c084fc" stroke-width="1.8" />
+      <path d="M23,31 L23,36 C23,38 30,41 37,36 L37,31" fill="none" stroke="#c084fc" stroke-width="1.5" />
+      <text x="56" y="26" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#9ca3af" letter-spacing="0.5">MULTI-DISCIPLINARY</text>
+      <text x="56" y="46" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" fill="#c084fc">All Domains &amp; Topics</text>
     </g>
   </g>
 </svg>
